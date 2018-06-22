@@ -83,9 +83,9 @@ GO
 CREATE TABLE [dbo].[Parameter](
 	[MinImportQuanity] [int] NULL,
 	[MinStockBeforeImport] [int] NULL,
-	[MinStockAfterSale] [int] NULL,
+	[MinStockAfterSales] [int] NULL,
 	[MaxDebt] [int] NULL,
-	[ConstrantDebtCollection] [bit] NULL
+	[UseRegulation] [bit] NULL
 ) ON [PRIMARY]
 GO
 
@@ -104,15 +104,15 @@ CREATE TABLE [dbo].[Author](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Category]    Script Date: 6/3/2018 11:37:33 PM ******/
+/****** Object:  Table [dbo].[BookCategory]    Script Date: 6/3/2018 11:37:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Category](
+CREATE TABLE [dbo].[BookCategory](
 	[ID] [nchar](10) NOT NULL,
 	[Name] [nchar](30) NULL,
- CONSTRAINT [PK_Category] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_BookCategory] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -128,8 +128,9 @@ CREATE TABLE [dbo].[Book](
 	[ID] [nchar](10) NOT NULL,
 	[Name] [nchar](50) NULL,
 	[AuthorID] [nchar](10) NULL,
-	[CategoryID] [nchar](10) NULL,
-	[Stock] [int] NULL,
+	[BookCategoryID] [nchar](10) NULL,
+	[ImportAmount] [int] NULL,
+	[ImportPrice] [int] NULL,
  CONSTRAINT [PK_Book] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -141,10 +142,10 @@ REFERENCES [dbo].[Author] ([ID])
 GO
 ALTER TABLE [dbo].[Book] CHECK CONSTRAINT [FK_Book_Author]
 GO
-ALTER TABLE [dbo].[Book]  WITH CHECK ADD  CONSTRAINT [FK_Book_Category] FOREIGN KEY([CategoryID])
-REFERENCES [dbo].[Category] ([ID])
+ALTER TABLE [dbo].[Book]  WITH CHECK ADD  CONSTRAINT [FK_Book_BookCategory] FOREIGN KEY([BookCategoryID])
+REFERENCES [dbo].[BookCategory] ([ID])
 GO
-ALTER TABLE [dbo].[Book] CHECK CONSTRAINT [FK_Book_Category]
+ALTER TABLE [dbo].[Book] CHECK CONSTRAINT [FK_Book_BookCategory]
 GO
 
 /****** Object:  Table [dbo].[StockReport]    Script Date: 6/3/2018 11:41:14 PM ******/
@@ -154,8 +155,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[StockReport](
 	[ID] [nchar](10) NOT NULL,
+	/*
 	[Month] [int] NULL,
 	[Year] [int] NULL,
+	*/
+	[DateReport] [smalldatetime] NULL,
  CONSTRAINT [PK_StockReport] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -163,77 +167,77 @@ CREATE TABLE [dbo].[StockReport](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[StockReportInfo]    Script Date: 6/3/2018 11:41:32 PM ******/
+/****** Object:  Table [dbo].[StockReportDetail]    Script Date: 6/3/2018 11:41:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[StockReportInfo](
+CREATE TABLE [dbo].[StockReportDetail](
 	[ID] [nchar](10) NOT NULL,
 	[StockReportID] [nchar](10) NULL,
 	[BookID] [nchar](10) NULL,
 	[OpeningStock] [int] NULL,
-	[IncurredStock] [int] NULL,
+	[NewStock] [int] NULL,
 	[ClosingStock] [int] NULL,
- CONSTRAINT [PK_StockReportInfo] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_StockReportDetail] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[StockReportInfo]  WITH CHECK ADD  CONSTRAINT [FK_StockReportInfo_Book] FOREIGN KEY([BookID])
+ALTER TABLE [dbo].[StockReportDetail]  WITH CHECK ADD  CONSTRAINT [FK_StockReportDetail_Book] FOREIGN KEY([BookID])
 REFERENCES [dbo].[Book] ([ID])
 GO
-ALTER TABLE [dbo].[StockReportInfo] CHECK CONSTRAINT [FK_StockReportInfo_Book]
+ALTER TABLE [dbo].[StockReportDetail] CHECK CONSTRAINT [FK_StockReportDetail_Book]
 GO
-ALTER TABLE [dbo].[StockReportInfo]  WITH CHECK ADD  CONSTRAINT [FK_StockReportInfo_StockReport] FOREIGN KEY([StockReportID])
+ALTER TABLE [dbo].[StockReportDetail]  WITH CHECK ADD  CONSTRAINT [FK_StockReportDetail_StockReport] FOREIGN KEY([StockReportID])
 REFERENCES [dbo].[StockReport] ([ID])
 GO
-ALTER TABLE [dbo].[StockReportInfo] CHECK CONSTRAINT [FK_StockReportInfo_StockReport]
+ALTER TABLE [dbo].[StockReportDetail] CHECK CONSTRAINT [FK_StockReportDetail_StockReport]
 GO
 
-/****** Object:  Table [dbo].[BookImport]    Script Date: 6/3/2018 11:43:17 PM ******/
+/****** Object:  Table [dbo].[Import]    Script Date: 6/3/2018 11:43:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[BookImport](
+CREATE TABLE [dbo].[Import](
 	[ID] [nchar](10) NOT NULL,
-	[Date] [smalldatetime] NULL,
- CONSTRAINT [PK_BookImport] PRIMARY KEY CLUSTERED 
+	[DateImport] [smalldatetime] NULL,
+ CONSTRAINT [PK_Import] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[BookImportInfo]    Script Date: 6/3/2018 11:45:01 PM ******/
+/****** Object:  Table [dbo].[ImportDetail]    Script Date: 6/3/2018 11:45:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[BookImportInfo](
+CREATE TABLE [dbo].[ImportDetail](
 	[ID] [nchar](10) NOT NULL,
-	[BookImportID] [nchar](10) NULL,
+	[ImportID] [nchar](10) NULL,
 	[BookID] [nchar](10) NULL,
-	[Quantity] [int] NULL,
-	[StockBeforeImport] [int] NULL,
-	[Price] [int] NULL,
- CONSTRAINT [PK_BookImportInfo] PRIMARY KEY CLUSTERED 
+	[ImportAmount] [int] NULL,
+	[CurrentAmount] [int] NULL,
+	[ImportPrice] [int] NULL,
+ CONSTRAINT [PK_ImportDetail] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[BookImportInfo]  WITH CHECK ADD  CONSTRAINT [FK_BookImportInfo_Book] FOREIGN KEY([BookID])
+ALTER TABLE [dbo].[ImportDetail]  WITH CHECK ADD  CONSTRAINT [FK_ImportDetail_Book] FOREIGN KEY([BookID])
 REFERENCES [dbo].[Book] ([ID])
 GO
-ALTER TABLE [dbo].[BookImportInfo] CHECK CONSTRAINT [FK_BookImportInfo_Book]
+ALTER TABLE [dbo].[ImportDetail] CHECK CONSTRAINT [FK_ImportDetail_Book]
 GO
-ALTER TABLE [dbo].[BookImportInfo]  WITH CHECK ADD  CONSTRAINT [FK_BookImportInfo_BookImport] FOREIGN KEY([BookImportID])
-REFERENCES [dbo].[BookImport] ([ID])
+ALTER TABLE [dbo].[ImportDetail]  WITH CHECK ADD  CONSTRAINT [FK_ImportDetail_Import] FOREIGN KEY([ImportID])
+REFERENCES [dbo].[Import] ([ID])
 GO
-ALTER TABLE [dbo].[BookImportInfo] CHECK CONSTRAINT [FK_BookImportInfo_BookImport]
+ALTER TABLE [dbo].[ImportDetail] CHECK CONSTRAINT [FK_ImportDetail_Import]
 GO
 
 /****** Object:  Table [dbo].[Customer]    Script Date: 6/3/2018 11:46:18 PM ******/
@@ -247,7 +251,7 @@ CREATE TABLE [dbo].[Customer](
 	[Address] [nchar](50) NULL,
 	[Email] [nchar](50) NULL,
 	[PhoneNumber] [nchar](20) NULL,
-	[Debt] [int] NULL,
+	[CurrentDebt] [int] NULL,
  CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -262,8 +266,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DebtReport](
 	[ID] [nchar](10) NOT NULL,
+	/*
 	[Month] [int] NULL,
 	[Year] [int] NULL,
+	*/
+	[DateReport] [smalldatetime] NULL,
  CONSTRAINT [PK_DebtReport] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -271,57 +278,57 @@ CREATE TABLE [dbo].[DebtReport](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[DebtReportInfo]    Script Date: 6/3/2018 11:47:13 PM ******/
+/****** Object:  Table [dbo].[DebtReportDetail]    Script Date: 6/3/2018 11:47:13 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[DebtReportInfo](
+CREATE TABLE [dbo].[DebtReportDetail](
 	[ID] [nchar](10) NOT NULL,
 	[DebtReportID] [nchar](10) NULL,
 	[CustomerID] [nchar](10) NULL,
 	[OpeningDebt] [int] NULL,
-	[IncurredDebt] [int] NULL,
+	[NewDebt] [int] NULL,
 	[ClosingDebt] [int] NULL,
- CONSTRAINT [PK_DebtReportInfo] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_DebtReportDetail] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[DebtReportInfo]  WITH CHECK ADD  CONSTRAINT [FK_DebtReportInfo_Customer] FOREIGN KEY([CustomerID])
+ALTER TABLE [dbo].[DebtReportDetail]  WITH CHECK ADD  CONSTRAINT [FK_DebtReportDetail_Customer] FOREIGN KEY([CustomerID])
 REFERENCES [dbo].[Customer] ([ID])
 GO
-ALTER TABLE [dbo].[DebtReportInfo] CHECK CONSTRAINT [FK_DebtReportInfo_Customer]
+ALTER TABLE [dbo].[DebtReportDetail] CHECK CONSTRAINT [FK_DebtReportDetail_Customer]
 GO
-ALTER TABLE [dbo].[DebtReportInfo]  WITH CHECK ADD  CONSTRAINT [FK_DebtReportInfo_DebtReport] FOREIGN KEY([DebtReportID])
+ALTER TABLE [dbo].[DebtReportDetail]  WITH CHECK ADD  CONSTRAINT [FK_DebtReportDetail_DebtReport] FOREIGN KEY([DebtReportID])
 REFERENCES [dbo].[DebtReport] ([ID])
 GO
-ALTER TABLE [dbo].[DebtReportInfo] CHECK CONSTRAINT [FK_DebtReportInfo_DebtReport]
+ALTER TABLE [dbo].[DebtReportDetail] CHECK CONSTRAINT [FK_DebtReportDetail_DebtReport]
 GO
 
 
-/****** Object:  Table [dbo].[DebtCollectReceipt]    Script Date: 6/3/2018 11:47:43 PM ******/
+/****** Object:  Table [dbo].[Receipt]    Script Date: 6/3/2018 11:47:43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[DebtCollectReceipt](
+CREATE TABLE [dbo].[Receipt](
 	[ID] [nchar](10) NOT NULL,
 	[CustomerID] [nchar](10) NULL,
-	[Date] [smalldatetime] NULL,
+	[DateCollect] [smalldatetime] NULL,
 	[DebtBeforeCollection] [int] NULL,
-	[Amount] [int] NULL,
- CONSTRAINT [PK_DebtCollectReceipt] PRIMARY KEY CLUSTERED 
+	[CollectedAmount] [int] NULL,
+ CONSTRAINT [PK_Receipt] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[DebtCollectReceipt]  WITH CHECK ADD  CONSTRAINT [FK_DebtCollectReceipt_Customer] FOREIGN KEY([CustomerID])
+ALTER TABLE [dbo].[Receipt]  WITH CHECK ADD  CONSTRAINT [FK_Receipt_Customer] FOREIGN KEY([CustomerID])
 REFERENCES [dbo].[Customer] ([ID])
 GO
-ALTER TABLE [dbo].[DebtCollectReceipt] CHECK CONSTRAINT [FK_DebtCollectReceipt_Customer]
+ALTER TABLE [dbo].[Receipt] CHECK CONSTRAINT [FK_Receipt_Customer]
 GO
 
 /****** Object:  Table [dbo].[Invoice]    Script Date: 6/3/2018 11:48:30 PM ******/
@@ -332,9 +339,9 @@ GO
 CREATE TABLE [dbo].[Invoice](
 	[ID] [nchar](10) NOT NULL,
 	[CustomerID] [nchar](10) NULL,
-	[Date] [smalldatetime] NULL,
-	[Value] [int] NULL,
-	[DebtBeforeSale] [int] NULL,
+	[DateCreate] [smalldatetime] NULL,
+	[Amount] [int] NULL,
+	[DebtBeforeSales] [int] NULL,
  CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -348,32 +355,31 @@ ALTER TABLE [dbo].[Invoice] CHECK CONSTRAINT [FK_Invoice_Customer]
 GO
 
 
-/****** Object:  Table [dbo].[InvoiceInfo]    Script Date: 6/3/2018 11:48:49 PM ******/
+/****** Object:  Table [dbo].[InvoiceDetail]    Script Date: 6/3/2018 11:48:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[InvoiceInfo](
+CREATE TABLE [dbo].[InvoiceDetail](
 	[ID] [nchar](10) NOT NULL,
 	[InvoiceID] [nchar](10) NULL,
 	[BookID] [nchar](10) NULL,
-	[Quantity] [int] NULL,
-	[StockBeforeSale] [int] NULL,
-	[Price] [int] NULL,
- CONSTRAINT [PK_InvoiceInfo] PRIMARY KEY CLUSTERED 
+	[Amount] [int] NULL,
+	[StockBeforeSales] [int] NULL,
+	[SalesPrice] [int] NULL,
+ CONSTRAINT [PK_InvoiceDetail] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[InvoiceInfo]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceInfo_Book] FOREIGN KEY([BookID])
+ALTER TABLE [dbo].[InvoiceDetail]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceDetail_Book] FOREIGN KEY([BookID])
 REFERENCES [dbo].[Book] ([ID])
 GO
-ALTER TABLE [dbo].[InvoiceInfo] CHECK CONSTRAINT [FK_InvoiceInfo_Book]
+ALTER TABLE [dbo].[InvoiceDetail] CHECK CONSTRAINT [FK_InvoiceDetail_Book]
 GO
-ALTER TABLE [dbo].[InvoiceInfo]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceInfo_Invoice] FOREIGN KEY([InvoiceID])
+ALTER TABLE [dbo].[InvoiceDetail]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceDetail_Invoice] FOREIGN KEY([InvoiceID])
 REFERENCES [dbo].[Invoice] ([ID])
 GO
-ALTER TABLE [dbo].[InvoiceInfo] CHECK CONSTRAINT [FK_InvoiceInfo_Invoice]
+ALTER TABLE [dbo].[InvoiceDetail] CHECK CONSTRAINT [FK_InvoiceDetail_Invoice]
 GO
-
