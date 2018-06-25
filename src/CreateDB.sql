@@ -129,8 +129,8 @@ CREATE TABLE [dbo].[Book](
 	[Name] [nchar](50) NULL,
 	[AuthorID] [nchar](10) NULL,
 	[BookCategoryID] [nchar](10) NULL,
-	[ImportAmount] [int] NULL,
-	[ImportPrice] [int] NULL,
+	[Stock] [int] NULL,
+	[Price] [int] NULL,
  CONSTRAINT [PK_Book] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -203,7 +203,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Import](
 	[ID] [nchar](10) NOT NULL,
-	[DateImport] [smalldatetime] NULL,
+	[ImportDate] [smalldatetime] NULL,
  CONSTRAINT [PK_Import] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -382,4 +382,185 @@ ALTER TABLE [dbo].[InvoiceDetail]  WITH CHECK ADD  CONSTRAINT [FK_InvoiceDetail_
 REFERENCES [dbo].[Invoice] ([ID])
 GO
 ALTER TABLE [dbo].[InvoiceDetail] CHECK CONSTRAINT [FK_InvoiceDetail_Invoice]
+GO
+
+
+/****** Insert Testing data ******/
+USE [BookstoreManagement]
+GO
+
+INSERT INTO [dbo].[Author]
+           ([ID]
+           ,[Name])
+     VALUES
+           ('001'
+           ,'Testing Author')
+GO
+
+INSERT INTO [dbo].[Author]
+           ([ID]
+           ,[Name])
+     VALUES
+           ('002'
+           ,'Testing Author 2')
+GO
+
+INSERT INTO [dbo].[Author]
+           ([ID]
+           ,[Name])
+     VALUES
+           ('003'
+           ,'Testing Author 3')
+GO
+
+
+USE [BookstoreManagement]
+GO
+
+INSERT INTO [dbo].[BookCategory]
+           ([ID]
+           ,[Name])
+     VALUES
+           ('001'
+           ,'Testing Book Category')
+GO
+
+INSERT INTO [dbo].[BookCategory]
+           ([ID]
+           ,[Name])
+     VALUES
+           ('002'
+           ,'Testing Book Category 2')
+GO
+
+INSERT INTO [dbo].[BookCategory]
+           ([ID]
+           ,[Name])
+     VALUES
+           ('003'
+           ,'Testing Book Category 3')
+GO
+
+USE [BookstoreManagement]
+GO
+
+INSERT INTO [dbo].[Book]
+           ([ID]
+           ,[Name]
+           ,[AuthorID]
+           ,[BookCategoryID]
+           ,[Stock]
+           ,[Price])
+     VALUES
+           ('001'
+           ,'Testing book'
+           ,'001'
+           ,'001'
+           ,1000
+           ,1000)
+GO
+
+
+INSERT INTO [dbo].[Book]
+           ([ID]
+           ,[Name]
+           ,[AuthorID]
+           ,[BookCategoryID]
+           ,[Stock]
+           ,[Price])
+     VALUES
+           ('002'
+           ,'Testing book 2'
+           ,'002'
+           ,'002'
+           ,1000
+           ,1000)
+GO
+
+
+
+INSERT INTO [dbo].[Book]
+           ([ID]
+           ,[Name]
+           ,[AuthorID]
+           ,[BookCategoryID]
+           ,[Stock]
+           ,[Price])
+     VALUES
+           ('003'
+           ,'Testing book 3'
+           ,'003'
+           ,'003'
+           ,1000
+           ,1000)
+GO
+
+USE [BookstoreManagement]
+GO
+
+INSERT INTO [dbo].[Import]
+           ([ID]
+           ,[ImportDate])
+     VALUES
+           ('001'
+           ,convert(datetime,'7/15/2018 00:00:00'))
+GO
+
+INSERT INTO [dbo].[Import]
+           ([ID]
+           ,[ImportDate])
+     VALUES
+           ('002'
+           ,convert(datetime,'7/20/2018 00:00:00'))
+GO
+
+USE [BookstoreManagement]
+GO
+
+INSERT INTO [dbo].[ImportDetail]
+           ([ID]
+           ,[ImportID]
+           ,[BookID]
+           ,[ImportAmount]
+           ,[CurrentAmount]
+           ,[ImportPrice])
+     VALUES
+           ('001'
+           ,'001'
+           ,'001'
+           ,20
+           ,1000
+           ,900)
+GO
+
+INSERT INTO [dbo].[ImportDetail]
+           ([ID]
+           ,[ImportID]
+           ,[BookID]
+           ,[ImportAmount]
+           ,[CurrentAmount]
+           ,[ImportPrice])
+     VALUES
+           ('002'
+           ,'001'
+           ,'002'
+           ,30
+           ,1000
+           ,950)
+GO
+
+INSERT INTO [dbo].[ImportDetail]
+           ([ID]
+           ,[ImportID]
+           ,[BookID]
+           ,[ImportAmount]
+           ,[CurrentAmount]
+           ,[ImportPrice])
+     VALUES
+           ('003'
+           ,'002'
+           ,'003'
+           ,20
+           ,1000
+           ,800)
 GO
