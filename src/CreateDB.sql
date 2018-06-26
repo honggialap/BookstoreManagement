@@ -339,7 +339,7 @@ GO
 CREATE TABLE [dbo].[Invoice](
 	[ID] [nchar](10) NOT NULL,
 	[CustomerID] [nchar](10) NULL,
-	[DateCreate] [smalldatetime] NULL,
+	[InvoiceDate] [smalldatetime] NULL,
 	[Amount] [int] NULL,
 	[DebtBeforeSales] [int] NULL,
  CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
@@ -393,7 +393,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('001'
+           ('1'
            ,'Testing Author')
 GO
 
@@ -401,7 +401,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('002'
+           ('2'
            ,'Testing Author 2')
 GO
 
@@ -409,7 +409,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('003'
+           ('3'
            ,'Testing Author 3')
 GO
 
@@ -421,7 +421,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('001'
+           ('1'
            ,'Testing Book Category')
 GO
 
@@ -429,7 +429,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('002'
+           ('2'
            ,'Testing Book Category 2')
 GO
 
@@ -437,7 +437,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('003'
+           ('3'
            ,'Testing Book Category 3')
 GO
 
@@ -452,10 +452,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('001'
+           ('1'
            ,'Testing book'
-           ,'001'
-           ,'001'
+           ,'1'
+           ,'1'
            ,1000
            ,1000)
 GO
@@ -469,10 +469,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('002'
+           ('2'
            ,'Testing book 2'
-           ,'002'
-           ,'002'
+           ,'2'
+           ,'2'
            ,1000
            ,1000)
 GO
@@ -487,10 +487,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('003'
+           ('3'
            ,'Testing book 3'
-           ,'003'
-           ,'003'
+           ,'3'
+           ,'3'
            ,1000
            ,1000)
 GO
@@ -502,7 +502,7 @@ INSERT INTO [dbo].[Import]
            ([ID]
            ,[ImportDate])
      VALUES
-           ('001'
+           ('1'
            ,convert(datetime,'7/15/2018 00:00:00'))
 GO
 
@@ -510,7 +510,7 @@ INSERT INTO [dbo].[Import]
            ([ID]
            ,[ImportDate])
      VALUES
-           ('002'
+           ('2'
            ,convert(datetime,'7/20/2018 00:00:00'))
 GO
 
@@ -525,9 +525,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[CurrentAmount]
            ,[ImportPrice])
      VALUES
-           ('001'
-           ,'001'
-           ,'001'
+           ('1'
+           ,'1'
+           ,'1'
            ,20
            ,1000
            ,900)
@@ -541,9 +541,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[CurrentAmount]
            ,[ImportPrice])
      VALUES
-           ('002'
-           ,'001'
-           ,'002'
+           ('2'
+           ,'1'
+           ,'2'
            ,30
            ,1000
            ,950)
@@ -557,9 +557,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[CurrentAmount]
            ,[ImportPrice])
      VALUES
-           ('003'
-           ,'002'
-           ,'003'
+           ('3'
+           ,'2'
+           ,'3'
            ,20
            ,1000
            ,800)
