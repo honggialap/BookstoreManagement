@@ -1,5 +1,6 @@
 ﻿Imports System.Configuration
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 Imports BookstoreManagement.DTO
 Imports Utility
 
@@ -14,12 +15,12 @@ Public Class BookDAL
 		Me.connectionStr = connectionStr
 	End Sub
 
-	Public Function getNextId(ByRef nextId As Integer) As Result
+	Public Function getNextId(ByRef nextId As String) As Result
 
 		Dim query As String = String.Empty
-		query &= " SELECT TOP 1 [ID] "
-		query &= " FROM [Book] "
-		query &= " ORDER BY [ID] DESC "
+		query &= "SELECT TOP 1 [ID] "
+		query &= "FROM [Book] "
+		query &= "ORDER BY [ID] DESC"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -35,7 +36,7 @@ Public Class BookDAL
 					conn.Open()
 
 					Dim book As SqlDataReader
-					Dim idOnDB As Integer
+					Dim idOnDB As String
 
 					book = comm.ExecuteReader()
 					idOnDB = Nothing
@@ -46,10 +47,18 @@ Public Class BookDAL
 						End While
 					End If
 
-					nextId = idOnDB + 1 'new ID = current ID + 1
+					Dim IdPrefix As String = "BOOK"
+					Dim IdNumber As Integer
+
+					If IsNothing(idOnDB) Then
+						IdNumber = 1
+					Else
+						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
+						IdNumber += 1
+					End If
+					nextId = IdPrefix + IdNumber.ToString("D3")
 
 				Catch exception As Exception
-					nextId = 1
 
 					Debug.WriteLine("Get next book ID failed")
 					Return New Result(False, "Get next book ID failed", exception.StackTrace)
@@ -70,8 +79,8 @@ Public Class BookDAL
 	Public Function insert(book As BookDTO) As Result
 
 		Dim query As String = String.Empty
-		query &= " INSERT INTO [Book] ([ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price]) "
-		query &= " VALUES (@ID, @Name, @AuthorID, @BookCategoryID, @Stock, @Price) "
+		query &= "INSERT INTO [Book] ([ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price]) "
+		query &= "VALUES (@ID, @Name, @AuthorID, @BookCategoryID, @Stock, @Price)"
 
 		Dim nextID = 0
 		Dim result As Result
@@ -122,8 +131,8 @@ Public Class BookDAL
 	Public Function selectAll(ByRef books As List(Of BookDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
-		query &= " FROM [Book] "
+		query &= "SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
+		query &= "FROM [Book]"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -168,9 +177,9 @@ Public Class BookDAL
 	Public Function selectAll_ByAuthorID(authorID As String, ByRef books As List(Of BookDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
-		query &= " FROM [Book] "
-		query &= " WHERE [Book].[AuthorID] = @AuthorID "
+		query &= "SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
+		query &= "FROM [Book] "
+		query &= "WHERE [Book].[AuthorID] = @AuthorID"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -216,9 +225,9 @@ Public Class BookDAL
 	Public Function selectAll_ByBookCategoryID(bookCategoryID As String, ByRef books As List(Of BookDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
-		query &= " FROM [Book]"
-		query &= " WHERE [Book].[BookCategoryID] = @BookCategoryID"
+		query &= "SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
+		query &= "FROM [Book] "
+		query &= "WHERE [Book].[BookCategoryID] = @BookCategoryID"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -264,13 +273,13 @@ Public Class BookDAL
 	Public Function update(book As BookDTO) As Result
 
 		Dim query As String = String.Empty
-		query &= " UPDATE [Book] SET "
-		query &= " [Name] = @Name , "
-		query &= " [AuthorID] = @AuthorID , "
-		query &= " [BookCategoryID] = @BookCategoryID , "
-		query &= " [Stock] = @Stock , "
-		query &= " [Price] = @Price "
-		query &= " WHERE [ID] = @ID "
+		query &= "UPDATE [Book] SET "
+		query &= "[Name] = @Name, "
+		query &= "[AuthorID] = @AuthorID, "
+		query &= "[BookCategoryID] = @BookCategoryID, "
+		query &= "[Stock] = @Stock, "
+		query &= "[Price] = @Price"
+		query &= " WHERE [ID] = @ID"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -312,9 +321,8 @@ Public Class BookDAL
 	Public Function delete(bookID As String) As Result
 
 		Dim query As String = String.Empty
-		query &= " DELETE FROM [Book] "
-		query &= " WHERE "
-		query &= " [ID] = @ID "
+		query &= "DELETE FROM [Book] "
+		query &= "WHERE [ID] = @ID"
 
 		Using conn As New SqlConnection(connectionStr)
 

@@ -1,5 +1,6 @@
 ﻿Imports System.Configuration
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 Imports BookstoreManagement.DTO
 Imports Utility
 
@@ -14,12 +15,12 @@ Public Class ImportDetailDAL
 		Me.connectionStr = connectionStr
 	End Sub
 
-	Public Function getNextId(ByRef nextId As Integer) As Result
+	Public Function getNextId(ByRef nextId As String) As Result
 		Dim query As String = String.Empty
 
-		query &= " SELECT TOP 1 [ID] "
-		query &= " FROM [ImportDetail] "
-		query &= " ORDER BY [ID] DESC "
+		query &= "SELECT TOP 1 [ID] "
+		query &= "FROM [ImportDetail] "
+		query &= "ORDER BY [ID] DESC"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -35,7 +36,7 @@ Public Class ImportDetailDAL
 					conn.Open()
 
 					Dim importDetail As SqlDataReader
-					Dim idOnDB As Integer
+					Dim idOnDB As String
 
 					importDetail = comm.ExecuteReader()
 					idOnDB = Nothing
@@ -46,7 +47,17 @@ Public Class ImportDetailDAL
 						End While
 					End If
 
-					nextId = idOnDB + 1 ' new ID = current ID + 1
+					Dim IdPrefix As String = "IMPORTDETAIL"
+					Dim IdNumber As Integer
+
+					If IsNothing(idOnDB) Then
+						IdNumber = 1
+					Else
+						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
+						IdNumber += 1
+					End If
+					nextId = IdPrefix + IdNumber.ToString("D3")
+
 
 				Catch exception As Exception
 					nextId = 1
@@ -69,8 +80,8 @@ Public Class ImportDetailDAL
 	Public Function insert(importDetail As ImportDetailDTO) As Result
 
 		Dim query As String = String.Empty
-		query &= " INSERT INTO [ImportDetail] ([ID], [ImportID], [BookID], [ImportAmount], [CurrentAmount], [ImportPrice]) "
-		query &= " VALUES (@ID, @ImportID, @BookID, @ImportAmount, @CurrentAmount, @ImportPrice) "
+		query &= "INSERT INTO [ImportDetail] ([ID], [ImportID], [BookID], [ImportAmount], [ImportPrice]) "
+		query &= "VALUES (@ID, @ImportID, @BookID, @ImportAmount, @ImportPrice)"
 
 		Dim nextID = 0
 		Dim result As Result
@@ -93,7 +104,6 @@ Public Class ImportDetailDAL
 					.Parameters.AddWithValue("@ImportID", importDetail.ImportID)
 					.Parameters.AddWithValue("@BookID", importDetail.BookID)
 					.Parameters.AddWithValue("@ImportAmount", importDetail.ImportAmount)
-					.Parameters.AddWithValue("@CurrentAmount", importDetail.CurrentAmount)
 					.Parameters.AddWithValue("@ImportPrice", importDetail.ImportPrice)
 				End With
 
@@ -120,8 +130,8 @@ Public Class ImportDetailDAL
 	Public Function insertAll(importDetails As List(Of ImportDetailDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " INSERT INTO [ImportDetail] ([ID], [ImportID], [BookID], [ImportAmount], [CurrentAmount], [ImportPrice]) "
-		query &= " VALUES (@ID, @ImportID, @BookID, @ImportAmount, @CurrentAmount, @ImportPrice) "
+		query &= "INSERT INTO [ImportDetail] ([ID], [ImportID], [BookID], [ImportAmount], [ImportPrice]) "
+		query &= "VALUES (@ID, @ImportID, @BookID, @ImportAmount, @ImportPrice)"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -129,7 +139,7 @@ Public Class ImportDetailDAL
 
 				Try
 					For Each importDetail As ImportDetailDTO In importDetails
-						Dim nextID = 0
+						Dim nextID As String
 						Dim result As Result
 
 						result = getNextId(nextID)
@@ -146,7 +156,6 @@ Public Class ImportDetailDAL
 							.Parameters.AddWithValue("@ImportID", importDetail.ImportID)
 							.Parameters.AddWithValue("@BookID", importDetail.BookID)
 							.Parameters.AddWithValue("@ImportAmount", importDetail.ImportAmount)
-							.Parameters.AddWithValue("@CurrentAmount", importDetail.CurrentAmount)
 							.Parameters.AddWithValue("@ImportPrice", importDetail.ImportPrice)
 						End With
 
@@ -173,8 +182,8 @@ Public Class ImportDetailDAL
 	Public Function selectAll(ByRef importDetails As List(Of ImportDetailDTO))
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [ImportID], [BookID], [ImportAmount], [CurrentAmount], [ImportPrice] "
-		query &= " FROM [ImportDetail] "
+		query &= "SELECT [ID], [ImportID], [BookID], [ImportAmount], [ImportPrice] "
+		query &= "FROM [ImportDetail]"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -195,7 +204,7 @@ Public Class ImportDetailDAL
 					If importDetail.HasRows = True Then
 						importDetails.Clear()
 						While importDetail.Read()
-							importDetails.Add(New ImportDetailDTO(importDetail("ID"), importDetail("ImportID"), importDetail("BookID"), importDetail("ImportAmount"), importDetail("CurrentAmount"), importDetail("ImportPrice")))
+							importDetails.Add(New ImportDetailDTO(importDetail("ID"), importDetail("ImportID"), importDetail("BookID"), importDetail("ImportAmount"), importDetail("ImportPrice")))
 						End While
 					End If
 
@@ -219,9 +228,9 @@ Public Class ImportDetailDAL
 	Public Function selectAll_ByImport(importID As String, ByRef importDetails As List(Of ImportDetailDTO))
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [ImportID], [BookID], [ImportAmount], [CurrentAmount], [ImportPrice] "
-		query &= " FROM [ImportDetail]"
-		query &= " WHERE [ImportDetail].[ImportID] = @ImportID"
+		query &= "SELECT [ID], [ImportID], [BookID], [ImportAmount], [ImportPrice] "
+		query &= "FROM [ImportDetail] "
+		query &= "WHERE [ImportDetail].[ImportID] = @ImportID"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -243,7 +252,7 @@ Public Class ImportDetailDAL
 					If importDetail.HasRows = True Then
 						importDetails.Clear()
 						While importDetail.Read()
-							importDetails.Add(New ImportDetailDTO(importDetail("ID"), importDetail("ImportID"), importDetail("BookID"), importDetail("ImportAmount"), importDetail("CurrentAmount"), importDetail("ImportPrice")))
+							importDetails.Add(New ImportDetailDTO(importDetail("ID"), importDetail("ImportID"), importDetail("BookID"), importDetail("ImportAmount"), importDetail("ImportPrice")))
 						End While
 					End If
 
@@ -268,9 +277,9 @@ Public Class ImportDetailDAL
 
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [ImportID], [BookID], [ImportAmount], [CurrentAmount], [ImportPrice] "
-		query &= " FROM [ImportDetail] "
-		query &= " WHERE [ImportDetail].[BookID] = @BookID "
+		query &= "SELECT [ID], [ImportID], [BookID], [ImportAmount], [ImportPrice] "
+		query &= "FROM [ImportDetail] "
+		query &= "WHERE [ImportDetail].[BookID] = @BookID"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -292,7 +301,7 @@ Public Class ImportDetailDAL
 					If importDetail.HasRows = True Then
 						importDetails.Clear()
 						While importDetail.Read()
-							importDetails.Add(New ImportDetailDTO(importDetail("ID"), importDetail("ImportID"), importDetail("BookID"), importDetail("ImportAmount"), importDetail("CurrentAmount"), importDetail("ImportPrice")))
+							importDetails.Add(New ImportDetailDTO(importDetail("ID"), importDetail("ImportID"), importDetail("BookID"), importDetail("ImportAmount"), importDetail("ImportPrice")))
 						End While
 					End If
 
@@ -316,13 +325,12 @@ Public Class ImportDetailDAL
 	Public Function update(importDetail As ImportDetailDTO) As Result
 
 		Dim query As String = String.Empty
-		query &= " UPDATE [ImportDetail] SET "
-		query &= " [ImportID] = @ImportID , "
-		query &= " [BookID] = @BookID , "
-		query &= " [ImportAmount] = @ImportAmount , "
-		query &= " [CurrentAmount] = @CurrentAmount , "
-		query &= " [ImportPrice] = @ImportPrice "
-		query &= " WHERE [ID] = @ID "
+		query &= "UPDATE [ImportDetail] SET "
+		query &= "[ImportID] = @ImportID, "
+		query &= "[BookID] = @BookID, "
+		query &= "[ImportAmount] = @ImportAmount, "
+		query &= "[ImportPrice] = @ImportPrice"
+		query &= " WHERE [ID] = @ID"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -336,7 +344,6 @@ Public Class ImportDetailDAL
 					.Parameters.AddWithValue("@ImportID", importDetail.ImportID)
 					.Parameters.AddWithValue("@BookID", importDetail.BookID)
 					.Parameters.AddWithValue("@ImportAmount", importDetail.ImportAmount)
-					.Parameters.AddWithValue("@CurrentAmount", importDetail.CurrentAmount)
 					.Parameters.AddWithValue("@ImportPrice", importDetail.ImportPrice)
 				End With
 
@@ -363,8 +370,8 @@ Public Class ImportDetailDAL
 
 	Public Function delete(importDetailID As String) As Result
 		Dim query As String = String.Empty
-		query &= " DELETE FROM [ImportDetail] "
-		query &= " WHERE [ID] = @ID "
+		query &= "DELETE FROM [ImportDetail] "
+		query &= "WHERE [ID] = @ID"
 
 		Using conn As New SqlConnection(connectionStr)
 

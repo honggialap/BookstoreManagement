@@ -1,5 +1,6 @@
 ﻿Imports System.Configuration
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 Imports BookstoreManagement.DTO
 Imports Utility
 
@@ -15,27 +16,27 @@ Public Class CustomerDAL
 	End Sub
 
 	Public Function getNextId(ByRef nextId As Integer) As Result
-      Dim query As String = String.Empty
+		Dim query As String = String.Empty
 
-      query &= "SELECT TOP 1 [ID]"
-      query &= "FROM [Customer]"
-      query &= "ORDER BY [ID] DESC"
+		query &= "SELECT TOP 1 [ID] "
+		query &= "FROM [Customer] "
+		query &= "ORDER BY [ID] DESC"
 
-      Using conn As New SqlConnection(connectionStr)
+		Using conn As New SqlConnection(connectionStr)
 
-         Using comm As New SqlCommand()
+			Using comm As New SqlCommand()
 
-            With comm
-               .Connection = conn
-               .CommandType = CommandType.Text
-               .CommandText = query
-            End With
+				With comm
+					.Connection = conn
+					.CommandType = CommandType.Text
+					.CommandText = query
+				End With
 
 				Try
 					conn.Open()
 
 					Dim customer As SqlDataReader
-					Dim idOnDB As Integer
+					Dim idOnDB As String
 
 					customer = comm.ExecuteReader()
 					idOnDB = Nothing
@@ -46,10 +47,19 @@ Public Class CustomerDAL
 						End While
 					End If
 
-					nextId = idOnDB + 1 'new ID = current ID + 1
+					Dim IdPrefix As String = "CUSTOMER"
+					Dim IdNumber As Integer
+
+					If IsNothing(idOnDB) Then
+						IdNumber = 1
+					Else
+						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
+						IdNumber += 1
+					End If
+					nextId = IdPrefix + IdNumber.ToString("D3")
+
 
 				Catch exception As Exception
-					nextId = 1
 
 					Debug.WriteLine("Get next customer ID failed")
 					Return New Result(False, "Get next customer ID failed", exception.StackTrace)
@@ -69,7 +79,7 @@ Public Class CustomerDAL
 	Public Function insert(customer As CustomerDTO) As Result
 		Dim query As String = String.Empty
 
-		query &= "INSERT INTO [Customer] ([ID], [Name], [Address], [Email], [PhoneNumber], [CurrentDebt])"
+		query &= "INSERT INTO [Customer] ([ID], [Name], [Address], [Email], [PhoneNumber], [CurrentDebt]) "
 		query &= "VALUES (@ID, @Name, @Address, @Email, @PhoneNumber, @CurrentDebt)"
 
 		Dim nextID = 0
@@ -116,12 +126,12 @@ Public Class CustomerDAL
 
 		Debug.WriteLine("Insert customer succeed")
 		Return New Result(True)
-   End Function
+	End Function
 
 	Public Function selectAll(ByRef customers As List(Of CustomerDTO)) As Result
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [Name], [Address], [Email], [PhoneNumber], [CurrentDebt] "
-		query &= " FROM [Customer] "
+		query &= "SELECT [ID], [Name], [Address], [Email], [PhoneNumber], [CurrentDebt] "
+		query &= "FROM [Customer]"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -165,13 +175,13 @@ Public Class CustomerDAL
 
 	Public Function update(customer As CustomerDTO) As Result
 		Dim query As String = String.Empty
-		query &= " UPDATE [Customer] SET "
-		query &= " [Name] = @Name , "
-		query &= " [Address] = @Address , "
-		query &= " [Email] = @Email ,"
-		query &= " [PhoneNumber] = @PhoneNumber , "
-		query &= " [CurrentDebt] = @CurrentDebt "
-		query &= " WHERE [ID] = @ID "
+		query &= "UPDATE [Customer] SET "
+		query &= "[Name] = @Name, "
+		query &= "[Address] = @Address, "
+		query &= "[Email] = @Email, "
+		query &= "[PhoneNumber] = @PhoneNumber, "
+		query &= "[CurrentDebt] = @CurrentDebt"
+		query &= " WHERE [ID] = @ID"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -213,8 +223,8 @@ Public Class CustomerDAL
 	Public Function delete(customerID As String) As Result
 
 		Dim query As String = String.Empty
-		query &= " DELETE FROM [Customer] "
-		query &= " WHERE [ID] = @ID "
+		query &= "DELETE FROM [Customer] "
+		query &= "WHERE [ID] = @ID"
 
 		Using conn As New SqlConnection(connectionStr)
 

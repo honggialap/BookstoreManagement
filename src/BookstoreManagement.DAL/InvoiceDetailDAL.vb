@@ -1,5 +1,6 @@
 ﻿Imports System.Configuration
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 Imports BookstoreManagement.DTO
 Imports Utility
 
@@ -35,7 +36,7 @@ Public Class InvoiceDetailDAL
 					conn.Open()
 
 					Dim invoiceDetail As SqlDataReader
-					Dim idOnDB As Integer
+					Dim idOnDB As String
 
 					invoiceDetail = comm.ExecuteReader()
 					idOnDB = Nothing
@@ -46,10 +47,19 @@ Public Class InvoiceDetailDAL
 						End While
 					End If
 
-					nextId = idOnDB + 1 'new ID = current ID + 1
+					Dim IdPrefix As String = "INVOICEDETAIL"
+					Dim IdNumber As Integer
+
+					If IsNothing(idOnDB) Then
+						IdNumber = 1
+					Else
+						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
+						IdNumber += 1
+					End If
+					nextId = IdPrefix + IdNumber.ToString("D3")
+
 
 				Catch exception As Exception
-					nextId = 1
 
 					Debug.WriteLine("Get next invoice detail ID failed")
 					Return New Result(False, "Get next invoice detail ID failed", exception.StackTrace)
@@ -69,8 +79,8 @@ Public Class InvoiceDetailDAL
 	Public Function insert(invoiceDetail As InvoiceDetailDTO) As Result
 
 		Dim query As String = String.Empty
-		query &= " INSERT INTO [InvoiceDetail] ([ID], [InvoiceID], [BookID], [Amount], [StockBeforeSales], [SalesPrice]) "
-		query &= " VALUES (@ID, @InvoiceID, @BookID, @Amount, @StockBeforeSales, @SalesPrice) "
+		query &= " INSERT INTO [InvoiceDetail] ([ID], [InvoiceID], [BookID], [Amount], [SalesPrice]) "
+		query &= " VALUES (@ID, @InvoiceID, @BookID, @Amount, @SalesPrice) "
 
 		Dim nextID = 0
 		Dim result As Result
@@ -94,7 +104,6 @@ Public Class InvoiceDetailDAL
 					.Parameters.AddWithValue("@InvoiceID", invoiceDetail.InvoiceID)
 					.Parameters.AddWithValue("@BookID", invoiceDetail.BookID)
 					.Parameters.AddWithValue("@Amount", invoiceDetail.Amount)
-					.Parameters.AddWithValue("@StockBeforeSales", invoiceDetail.StockBeforeSales)
 					.Parameters.AddWithValue("@SalesPrice", invoiceDetail.SalesPrice)
 				End With
 
@@ -122,8 +131,8 @@ Public Class InvoiceDetailDAL
 	Public Function insertAll(invoiceDetails As List(Of InvoiceDetailDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " INSERT INTO [InvoiceDetail] ([ID], [InvoiceID], [BookID], [Amount], [StockBeforeSales], [SalesPrice]) "
-		query &= " VALUES (@ID, @InvoiceID, @BookID, @Amount, @StockBeforeSales, @SalesPrice) "
+		query &= " INSERT INTO [InvoiceDetail] ([ID], [InvoiceID], [BookID], [Amount], [SalesPrice]) "
+		query &= " VALUES (@ID, @InvoiceID, @BookID, @Amount, @SalesPrice) "
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -148,7 +157,6 @@ Public Class InvoiceDetailDAL
 							.Parameters.AddWithValue("@InvoiceID", invoiceDetail.InvoiceID)
 							.Parameters.AddWithValue("@BookID", invoiceDetail.BookID)
 							.Parameters.AddWithValue("@Amount", invoiceDetail.Amount)
-							.Parameters.AddWithValue("@StockBeforeSales", invoiceDetail.StockBeforeSales)
 							.Parameters.AddWithValue("@SalesPrice", invoiceDetail.SalesPrice)
 						End With
 
@@ -175,7 +183,7 @@ Public Class InvoiceDetailDAL
 	Public Function selectAll(ByRef invoiceDetails As List(Of InvoiceDetailDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [InvoiceID], [BookID], [Amount], [StockBeforeSales], [SalesPrice] "
+		query &= " SELECT [ID], [InvoiceID], [BookID], [Amount], [SalesPrice] "
 		query &= " FROM [InvoiceDetail] "
 
 		Using conn As New SqlConnection(connectionStr)
@@ -197,7 +205,7 @@ Public Class InvoiceDetailDAL
 					If invoiceDetail.HasRows = True Then
 						invoiceDetails.Clear()
 						While invoiceDetail.Read()
-							invoiceDetails.Add(New InvoiceDetailDTO(invoiceDetail("ID"), invoiceDetail("InvoiceID"), invoiceDetail("BookID"), invoiceDetail("Amount"), invoiceDetail("StockBeforeSales"), invoiceDetail("SalesPrice")))
+							invoiceDetails.Add(New InvoiceDetailDTO(invoiceDetail("ID"), invoiceDetail("InvoiceID"), invoiceDetail("BookID"), invoiceDetail("Amount"), invoiceDetail("SalesPrice")))
 						End While
 					End If
 
@@ -221,7 +229,7 @@ Public Class InvoiceDetailDAL
 	Public Function selectAll_ByInvoiceID(invoiceID As String, ByRef invoiceDetails As List(Of InvoiceDetailDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [InvoiceID], [BookID], [Amount], [StockBeforeSales], [SalesPrice] "
+		query &= " SELECT [ID], [InvoiceID], [BookID], [Amount], [SalesPrice] "
 		query &= " FROM [InvoiceDetail]"
 		query &= " WHERE [InvoiceDetail].[InvoiceID] = @InvoiceID"
 
@@ -245,7 +253,7 @@ Public Class InvoiceDetailDAL
 					If invoiceDetail.HasRows = True Then
 						invoiceDetails.Clear()
 						While invoiceDetail.Read()
-							invoiceDetails.Add(New InvoiceDetailDTO(invoiceDetail("ID"), invoiceDetail("InvoiceID"), invoiceDetail("BookID"), invoiceDetail("Amount"), invoiceDetail("StockBeforeSales"), invoiceDetail("SalesPrice")))
+							invoiceDetails.Add(New InvoiceDetailDTO(invoiceDetail("ID"), invoiceDetail("InvoiceID"), invoiceDetail("BookID"), invoiceDetail("Amount"), invoiceDetail("SalesPrice")))
 						End While
 					End If
 
@@ -269,7 +277,7 @@ Public Class InvoiceDetailDAL
 	Public Function selectAll_ByBookID(bookID As String, ByRef invoiceDetails As List(Of InvoiceDetailDTO)) As Result
 
 		Dim query As String = String.Empty
-		query &= " SELECT [ID], [InvoiceID], [BookID], [Amount], [StockBeforeSales], [SalesPrice] "
+		query &= " SELECT [ID], [InvoiceID], [BookID], [Amount], [SalesPrice] "
 		query &= " FROM [InvoiceDetail]"
 		query &= " WHERE [InvoiceDetail].[BookID] = @BookID"
 
@@ -293,7 +301,7 @@ Public Class InvoiceDetailDAL
 					If invoiceDetail.HasRows = True Then
 						invoiceDetails.Clear()
 						While invoiceDetail.Read()
-							invoiceDetails.Add(New InvoiceDetailDTO(invoiceDetail("ID"), invoiceDetail("InvoiceID"), invoiceDetail("BookID"), invoiceDetail("Amount"), invoiceDetail("StockBeforeSales"), invoiceDetail("SalesPrice")))
+							invoiceDetails.Add(New InvoiceDetailDTO(invoiceDetail("ID"), invoiceDetail("InvoiceID"), invoiceDetail("BookID"), invoiceDetail("Amount"), invoiceDetail("SalesPrice")))
 						End While
 					End If
 
@@ -321,7 +329,6 @@ Public Class InvoiceDetailDAL
 		query &= " [InvoiceID] = @InvoiceID , "
 		query &= " [BookID] = @BookID , "
 		query &= " [Amount] = @Amount , "
-		query &= " [StockBeforeSales] = @StockBeforeSales , "
 		query &= " [SalesPrice] = @SalesPrice "
 		query &= " WHERE [ID] = @ID "
 
@@ -337,7 +344,6 @@ Public Class InvoiceDetailDAL
 					.Parameters.AddWithValue("@InvoiceID", invoiceDetail.InvoiceID)
 					.Parameters.AddWithValue("@BookID", invoiceDetail.BookID)
 					.Parameters.AddWithValue("@Amount", invoiceDetail.Amount)
-					.Parameters.AddWithValue("@StockBeforeSales", invoiceDetail.StockBeforeSales)
 					.Parameters.AddWithValue("@SalesPrice", invoiceDetail.SalesPrice)
 				End With
 
