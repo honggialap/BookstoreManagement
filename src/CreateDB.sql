@@ -388,7 +388,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('AUTHOR001'
+           ('AUTHOR00000001'
            ,'Testing Author')
 GO
 
@@ -396,7 +396,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('AUTHOR002'
+           ('AUTHOR00000002'
            ,'Testing Author 2')
 GO
 
@@ -404,19 +404,19 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('AUTHOR003'
+           ('AUTHOR00000003'
            ,'Testing Author 3')
 GO
 
 
 USE [BookstoreManagement]
-GO
+GO 
 
 INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('CATEGORY001'
+           ('CATEGORY00000001'
            ,'Testing Book Category')
 GO
 
@@ -424,7 +424,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('CATEGORY002'
+           ('CATEGORY00000002'
            ,'Testing Book Category 2')
 GO
 
@@ -432,7 +432,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('CATEGORY003'
+           ('CATEGORY00000003'
            ,'Testing Book Category 3')
 GO
 
@@ -447,10 +447,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('BOOK001'
+           ('BOOK00000001'
            ,'Testing book'
-           ,'AUTHOR001'
-           ,'CATEGORY001'
+           ,'AUTHOR00000001'
+           ,'CATEGORY00000001'
            ,1000
            ,1000)
 GO
@@ -464,10 +464,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('BOOK002'
+           ('BOOK00000002'
            ,'Testing book 2'
-           ,'AUTHOR002'
-           ,'CATEGORY002'
+           ,'AUTHOR00000002'
+           ,'CATEGORY00000002'
            ,1000
            ,1000)
 GO
@@ -482,10 +482,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('BOOK003'
+           ('BOOK00000003'
            ,'Testing book 3'
-           ,'AUTHOR003'
-           ,'CATEGORY003'
+           ,'AUTHOR00000003'
+           ,'CATEGORY00000003'
            ,1000
            ,1000)
 GO
@@ -497,7 +497,7 @@ INSERT INTO [dbo].[Import]
            ([ID]
            ,[ImportDate])
      VALUES
-           ('IMPORT001'
+           ('IMPORT00000001'
            ,convert(datetime,'7/15/2018 00:00:00'))
 GO
 
@@ -505,7 +505,7 @@ INSERT INTO [dbo].[Import]
            ([ID]
            ,[ImportDate])
      VALUES
-           ('IMPORT002'
+           ('IMPORT00000002'
            ,convert(datetime,'7/20/2018 00:00:00'))
 GO
 
@@ -519,9 +519,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[ImportAmount]
            ,[ImportPrice])
      VALUES
-           ('IMPORTDETAIL001'
-           ,'IMPORT001'
-           ,'BOOK001'
+           ('IMPORTDETAIL00000001'
+           ,'IMPORT00000001'
+           ,'BOOK00000001'
            ,20
            ,900)
 GO
@@ -533,9 +533,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[ImportAmount]
            ,[ImportPrice])
      VALUES
-           ('IMPORTDETAIL002'
-           ,'IMPORT001'
-           ,'BOOK002'
+           ('IMPORTDETAIL00000002'
+           ,'IMPORT00000001'
+           ,'BOOK00000002'
            ,30
            ,950)
 GO
@@ -547,9 +547,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[ImportAmount]
            ,[ImportPrice])
      VALUES
-           ('IMPORTDETAIL003'
-           ,'IMPORT002'
-           ,'BOOK003'
+           ('IMPORTDETAIL00000003'
+           ,'IMPORT00000002'
+           ,'BOOK00000003'
            ,20
            ,800)
 GO
