@@ -1,6 +1,5 @@
 ﻿Imports System.Configuration
 Imports System.Data.SqlClient
-Imports System.Text.RegularExpressions
 Imports BookstoreManagement.DTO
 Imports Utility
 
@@ -47,16 +46,8 @@ Public Class BookCategoryDAL
 						End While
 					End If
 
-					Dim IdPrefix As String = "CATEGORY"
-					Dim IdNumber As Integer
-
-					If IsNothing(idOnDB) Then
-						IdNumber = 1
-					Else
-						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
-						IdNumber += 1
-					End If
-					nextId = idPrefix + IdNumber.ToString("D3")
+					idOnDB.IncrementID("CATEGORY", "D8")
+					nextId = idOnDB
 
 				Catch exception As Exception
 
@@ -81,7 +72,7 @@ Public Class BookCategoryDAL
 		query &= "INSERT INTO [BookCategory] ([ID], [Name]) "
 		query &= "VALUES (@ID, @Name)"
 
-		Dim nextID = 0
+		Dim nextID = String.Empty
 		Dim result As Result
 
 		result = getNextId(nextID)

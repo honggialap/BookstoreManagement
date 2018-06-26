@@ -1,6 +1,5 @@
 ﻿Imports System.Configuration
 Imports System.Data.SqlClient
-Imports System.Text.RegularExpressions
 Imports BookstoreManagement.DTO
 Imports Utility
 
@@ -47,16 +46,8 @@ Public Class ImportDAL
 						End While
 					End If
 
-					Dim IdPrefix As String = "IMPORT"
-					Dim IdNumber As Integer
-
-					If IsNothing(idOnDB) Then
-						IdNumber = 1
-					Else
-						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
-						IdNumber += 1
-					End If
-					nextId = IdPrefix + IdNumber.ToString("D3")
+					idOnDB.IncrementID("IMPORT", "D8")
+					nextId = idOnDB
 
 				Catch exception As Exception
 
@@ -81,7 +72,7 @@ Public Class ImportDAL
 		query &= "INSERT INTO [Import] ([ID], [ImportDate]) "
 		query &= "VALUES (@ID, @ImportDate)"
 
-		Dim nextID = 0
+		Dim nextID = String.Empty
 		Dim result As Result
 
 		result = getNextId(nextID)

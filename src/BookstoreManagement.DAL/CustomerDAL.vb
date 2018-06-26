@@ -1,6 +1,5 @@
 ﻿Imports System.Configuration
 Imports System.Data.SqlClient
-Imports System.Text.RegularExpressions
 Imports BookstoreManagement.DTO
 Imports Utility
 
@@ -47,17 +46,8 @@ Public Class CustomerDAL
 						End While
 					End If
 
-					Dim IdPrefix As String = "CUSTOMER"
-					Dim IdNumber As Integer
-
-					If IsNothing(idOnDB) Then
-						IdNumber = 1
-					Else
-						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
-						IdNumber += 1
-					End If
-					nextId = IdPrefix + IdNumber.ToString("D3")
-
+					idOnDB.IncrementID("CUSTOMER", "D8")
+					nextId = idOnDB
 
 				Catch exception As Exception
 
@@ -82,7 +72,7 @@ Public Class CustomerDAL
 		query &= "INSERT INTO [Customer] ([ID], [Name], [Address], [Email], [PhoneNumber], [CurrentDebt]) "
 		query &= "VALUES (@ID, @Name, @Address, @Email, @PhoneNumber, @CurrentDebt)"
 
-		Dim nextID = 0
+		Dim nextID = String.Empty
 		Dim result As Result
 
 		result = getNextId(nextID)

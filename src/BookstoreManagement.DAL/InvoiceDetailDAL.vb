@@ -47,17 +47,8 @@ Public Class InvoiceDetailDAL
 						End While
 					End If
 
-					Dim IdPrefix As String = "INVOICEDETAIL"
-					Dim IdNumber As Integer
-
-					If IsNothing(idOnDB) Then
-						IdNumber = 1
-					Else
-						IdNumber = Regex.Replace(idOnDB, "[^\d]", "")
-						IdNumber += 1
-					End If
-					nextId = IdPrefix + IdNumber.ToString("D3")
-
+					idOnDB.IncrementID("INVOICEDETAIL", "D7")
+					nextId = idOnDB
 
 				Catch exception As Exception
 
@@ -82,7 +73,7 @@ Public Class InvoiceDetailDAL
 		query &= " INSERT INTO [InvoiceDetail] ([ID], [InvoiceID], [BookID], [Amount], [SalesPrice]) "
 		query &= " VALUES (@ID, @InvoiceID, @BookID, @Amount, @SalesPrice) "
 
-		Dim nextID = 0
+		Dim nextID = String.Empty
 		Dim result As Result
 
 		result = getNextId(nextID)
@@ -140,7 +131,9 @@ Public Class InvoiceDetailDAL
 
 				Try
 					For Each invoiceDetail As InvoiceDetailDTO In invoiceDetails
-						Dim nextID = 0
+						conn.Close()
+
+						Dim nextID = String.Empty
 						Dim result As Result
 
 						result = getNextId(nextID)
