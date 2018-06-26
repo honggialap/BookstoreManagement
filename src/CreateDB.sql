@@ -95,7 +95,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Author](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	[Name] [nchar](30) NULL,
  CONSTRAINT [PK_Author] PRIMARY KEY CLUSTERED 
 (
@@ -110,7 +110,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[BookCategory](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	[Name] [nchar](30) NULL,
  CONSTRAINT [PK_BookCategory] PRIMARY KEY CLUSTERED 
 (
@@ -125,10 +125,10 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Book](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	[Name] [nchar](50) NULL,
-	[AuthorID] [nchar](10) NULL,
-	[BookCategoryID] [nchar](10) NULL,
+	[AuthorID] [nchar](20) NULL,
+	[BookCategoryID] [nchar](20) NULL,
 	[Stock] [int] NULL,
 	[Price] [int] NULL,
  CONSTRAINT [PK_Book] PRIMARY KEY CLUSTERED 
@@ -154,7 +154,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[StockReport](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	/*
 	[Month] [int] NULL,
 	[Year] [int] NULL,
@@ -173,9 +173,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[StockReportDetail](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	[StockReportID] [nchar](10) NULL,
-	[BookID] [nchar](10) NULL,
+	[BookID] [nchar](20) NULL,
 	[OpeningStock] [int] NULL,
 	[NewStock] [int] NULL,
 	[ClosingStock] [int] NULL,
@@ -202,7 +202,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Import](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	[ImportDate] [smalldatetime] NULL,
  CONSTRAINT [PK_Import] PRIMARY KEY CLUSTERED 
 (
@@ -217,9 +217,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ImportDetail](
-	[ID] [nchar](10) NOT NULL,
-	[ImportID] [nchar](10) NULL,
-	[BookID] [nchar](10) NULL,
+	[ID] [nchar](20) NOT NULL,
+	[ImportID] [nchar](20) NULL,
+	[BookID] [nchar](20) NULL,
 	[ImportAmount] [int] NULL,
 	[CurrentAmount] [int] NULL,
 	[ImportPrice] [int] NULL,
@@ -246,7 +246,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Customer](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	[Name] [nchar](30) NULL,
 	[Address] [nchar](50) NULL,
 	[Email] [nchar](50) NULL,
@@ -265,7 +265,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DebtReport](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	/*
 	[Month] [int] NULL,
 	[Year] [int] NULL,
@@ -284,9 +284,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DebtReportDetail](
-	[ID] [nchar](10) NOT NULL,
-	[DebtReportID] [nchar](10) NULL,
-	[CustomerID] [nchar](10) NULL,
+	[ID] [nchar](20) NOT NULL,
+	[DebtReportID] [nchar](20) NULL,
+	[CustomerID] [nchar](20) NULL,
 	[OpeningDebt] [int] NULL,
 	[NewDebt] [int] NULL,
 	[ClosingDebt] [int] NULL,
@@ -314,8 +314,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Receipt](
-	[ID] [nchar](10) NOT NULL,
-	[CustomerID] [nchar](10) NULL,
+	[ID] [nchar](20) NOT NULL,
+	[CustomerID] [nchar](20) NULL,
 	[DateCollect] [smalldatetime] NULL,
 	[DebtBeforeCollection] [int] NULL,
 	[CollectedAmount] [int] NULL,
@@ -337,7 +337,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Invoice](
-	[ID] [nchar](10) NOT NULL,
+	[ID] [nchar](20) NOT NULL,
 	[CustomerID] [nchar](10) NULL,
 	[InvoiceDate] [smalldatetime] NULL,
 	[Amount] [int] NULL,
@@ -361,9 +361,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[InvoiceDetail](
-	[ID] [nchar](10) NOT NULL,
-	[InvoiceID] [nchar](10) NULL,
-	[BookID] [nchar](10) NULL,
+	[ID] [nchar](20) NOT NULL,
+	[InvoiceID] [nchar](20) NULL,
+	[BookID] [nchar](20) NULL,
 	[Amount] [int] NULL,
 	[StockBeforeSales] [int] NULL,
 	[SalesPrice] [int] NULL,
@@ -393,7 +393,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('1'
+           ('AUTHOR001'
            ,'Testing Author')
 GO
 
@@ -401,7 +401,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('2'
+           ('AUTHOR002'
            ,'Testing Author 2')
 GO
 
@@ -409,7 +409,7 @@ INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('3'
+           ('AUTHOR003'
            ,'Testing Author 3')
 GO
 
@@ -421,7 +421,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('1'
+           ('CATEGORY001'
            ,'Testing Book Category')
 GO
 
@@ -429,7 +429,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('2'
+           ('CATEGORY002'
            ,'Testing Book Category 2')
 GO
 
@@ -437,7 +437,7 @@ INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('3'
+           ('CATEGORY003'
            ,'Testing Book Category 3')
 GO
 
@@ -452,10 +452,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('1'
+           ('BOOK001'
            ,'Testing book'
-           ,'1'
-           ,'1'
+           ,'AUTHOR001'
+           ,'CATEGORY001'
            ,1000
            ,1000)
 GO
@@ -469,10 +469,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('2'
+           ('BOOK002'
            ,'Testing book 2'
-           ,'2'
-           ,'2'
+           ,'AUTHOR002'
+           ,'CATEGORY002'
            ,1000
            ,1000)
 GO
@@ -487,10 +487,10 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('3'
+           ('BOOK003'
            ,'Testing book 3'
-           ,'3'
-           ,'3'
+           ,'AUTHOR003'
+           ,'CATEGORY003'
            ,1000
            ,1000)
 GO
@@ -502,7 +502,7 @@ INSERT INTO [dbo].[Import]
            ([ID]
            ,[ImportDate])
      VALUES
-           ('1'
+           ('IMPORT001'
            ,convert(datetime,'7/15/2018 00:00:00'))
 GO
 
@@ -510,7 +510,7 @@ INSERT INTO [dbo].[Import]
            ([ID]
            ,[ImportDate])
      VALUES
-           ('2'
+           ('IMPORT002'
            ,convert(datetime,'7/20/2018 00:00:00'))
 GO
 
@@ -525,9 +525,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[CurrentAmount]
            ,[ImportPrice])
      VALUES
-           ('1'
-           ,'1'
-           ,'1'
+           ('IMPORTDETAIL001'
+           ,'IMPORT001'
+           ,'BOOK001'
            ,20
            ,1000
            ,900)
@@ -541,9 +541,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[CurrentAmount]
            ,[ImportPrice])
      VALUES
-           ('2'
-           ,'1'
-           ,'2'
+           ('IMPORTDETAIL002'
+           ,'IMPORT001'
+           ,'BOOK002'
            ,30
            ,1000
            ,950)
@@ -557,9 +557,9 @@ INSERT INTO [dbo].[ImportDetail]
            ,[CurrentAmount]
            ,[ImportPrice])
      VALUES
-           ('3'
-           ,'2'
-           ,'3'
+           ('IMPORTDETAIL003'
+           ,'IMPORT002'
+           ,'BOOK003'
            ,20
            ,1000
            ,800)
