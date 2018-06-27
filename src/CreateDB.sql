@@ -216,7 +216,6 @@ CREATE TABLE [dbo].[ImportDetail](
 	[ImportID] [nvarchar](20) NULL,
 	[BookID] [nvarchar](20) NULL,
 	[ImportAmount] [int] NULL,
-	[CurrentAmount] [int] NULL,
 	[ImportPrice] [int] NULL,
  CONSTRAINT [PK_ImportDetail] PRIMARY KEY CLUSTERED 
 (
@@ -335,8 +334,6 @@ CREATE TABLE [dbo].[Invoice](
 	[ID] [nvarchar](20) NOT NULL,
 	[CustomerID] [nvarchar](10) NULL,
 	[InvoiceDate] [smalldatetime] NULL,
-	[Amount] [int] NULL,
-	[DebtBeforeSales] [int] NULL,
  CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -360,7 +357,6 @@ CREATE TABLE [dbo].[InvoiceDetail](
 	[InvoiceID] [nvarchar](20) NULL,
 	[BookID] [nvarchar](20) NULL,
 	[Amount] [int] NULL,
-	[StockBeforeSales] [int] NULL,
 	[SalesPrice] [int] NULL,
  CONSTRAINT [PK_InvoiceDetail] PRIMARY KEY CLUSTERED 
 (
@@ -552,4 +548,185 @@ INSERT INTO [dbo].[ImportDetail]
            ,'BOOK00000003'
            ,20
            ,800)
+GO
+
+
+INSERT INTO [dbo].[Customer]
+           ([ID]
+           ,[Name]
+           ,[Address]
+           ,[Email]
+           ,[PhoneNumber]
+           ,[CurrentDebt])
+     VALUES
+           ('CUSTOMER00000001'
+           ,'Testing Customer 1'
+           ,'My home'
+           ,'Stupid@email.com'
+           ,'0909090909'
+           ,200000)
+GO
+
+INSERT INTO [dbo].[Customer]
+           ([ID]
+           ,[Name]
+           ,[Address]
+           ,[Email]
+           ,[PhoneNumber]
+           ,[CurrentDebt])
+     VALUES
+           ('CUSTOMER00000002'
+           ,'Testing Customer 2'
+           ,'My home 2'
+           ,'Stupid2@email.com'
+           ,'0909090908'
+           ,300000)
+GO
+
+INSERT INTO [dbo].[Customer]
+           ([ID]
+           ,[Name]
+           ,[Address]
+           ,[Email]
+           ,[PhoneNumber]
+           ,[CurrentDebt])
+     VALUES
+           ('CUSTOMER00000003'
+           ,'Testing Customer 3'
+           ,'My home 3'
+           ,'Stupid3@email.com'
+           ,'0909090907'
+           ,400000)
+GO
+
+
+INSERT INTO [dbo].[Invoice]
+           ([ID]
+           ,[CustomerID]
+           ,[InvoiceDate])
+     VALUES
+           ('INVOICE00000001'
+           ,'CUSTOMER00000001'
+           ,convert(datetime,'9/20/2018 00:00:00'))
+GO
+
+
+INSERT INTO [dbo].[Invoice]
+           ([ID]
+           ,[CustomerID]
+           ,[InvoiceDate])
+     VALUES
+           ('INVOICE00000002'
+           ,'CUSTOMER00000002'
+           ,convert(datetime,'9/15/2018 00:00:00'))
+GO
+
+INSERT INTO [dbo].[Invoice]
+           ([ID]
+           ,[CustomerID]
+           ,[InvoiceDate])
+     VALUES
+           ('INVOICE00000003'
+           ,'CUSTOMER00000002'
+           ,convert(datetime,'9/20/2018 00:00:00'))
+GO
+
+INSERT INTO [dbo].[Invoice]
+           ([ID]
+           ,[CustomerID]
+           ,[InvoiceDate])
+     VALUES
+           ('INVOICE00000004'
+           ,'CUSTOMER00000003'
+           ,convert(datetime,'10/20/2018 00:00:00'))
+GO
+
+
+INSERT INTO [dbo].[InvoiceDetail]
+           ([ID]
+           ,[InvoiceID]
+           ,[BookID]
+           ,[Amount]
+           ,[SalesPrice])
+     VALUES
+           ('INVOICEDETAIL0000001'
+           ,'INVOICE00000001'
+           ,'BOOK00000001'
+           ,20
+           ,300)
+GO
+
+
+INSERT INTO [dbo].[InvoiceDetail]
+           ([ID]
+           ,[InvoiceID]
+           ,[BookID]
+           ,[Amount]
+           ,[SalesPrice])
+     VALUES
+           ('INVOICEDETAIL0000002'
+           ,'INVOICE00000001'
+           ,'BOOK00000002'
+           ,30
+           ,400)
+GO
+
+
+INSERT INTO [dbo].[InvoiceDetail]
+           ([ID]
+           ,[InvoiceID]
+           ,[BookID]
+           ,[Amount]
+           ,[SalesPrice])
+     VALUES
+           ('INVOICEDETAIL0000003'
+           ,'INVOICE00000002'
+           ,'BOOK00000003'
+           ,20
+           ,300)
+GO
+
+
+INSERT INTO [dbo].[InvoiceDetail]
+           ([ID]
+           ,[InvoiceID]
+           ,[BookID]
+           ,[Amount]
+           ,[SalesPrice])
+     VALUES
+           ('INVOICEDETAIL0000003'
+           ,'INVOICE00000003'
+           ,'BOOK00000002'
+           ,20
+           ,300)
+GO
+
+
+INSERT INTO [dbo].[InvoiceDetail]
+           ([ID]
+           ,[InvoiceID]
+           ,[BookID]
+           ,[Amount]
+           ,[SalesPrice])
+     VALUES
+           ('INVOICEDETAIL0000004'
+           ,'INVOICE00000003'
+           ,'BOOK00000003'
+           ,20
+           ,300)
+GO
+
+
+INSERT INTO [dbo].[InvoiceDetail]
+           ([ID]
+           ,[InvoiceID]
+           ,[BookID]
+           ,[Amount]
+           ,[SalesPrice])
+     VALUES
+           ('INVOICEDETAIL0000005'
+           ,'INVOICE00000004'
+           ,'BOOK00000001'
+           ,20
+           ,300)
 GO
