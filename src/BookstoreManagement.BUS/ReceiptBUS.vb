@@ -14,29 +14,29 @@ Public Class ReceiptBUS
 	End Sub
 
 	Public Function getNextId(ByRef nextId As Integer) As Result
-		Return receiptDAL.getNextId(nextId)
+		Return getNextId(nextId)
 	End Function
 
 	Public Function insert(receipt As ReceiptDTO) As Result
-		Return receiptDAL.insert(receipt)
+		Return insert(receipt)
 	End Function
 
-	Public Function selectAll(ByRef receipts As List(Of ReceiptDTO)) As Result
-		Return receiptDAL.selectAll(receipts)
+	Public Function selectALL(ByRef receipts As List(Of ReceiptDTO)) As Result
+		Return selectALL(receipts)
 	End Function
 
-	Public Function selectAll_ByDate(dateCollected As DateTime, ByRef receipts As List(Of ReceiptDTO)) As Result
-		Return receiptDAL.selectAll_ByDate(dateCollected, receipts)
+	Public Function selectALL_ByDate(dateCollected As DateTime, ByRef receipts As List(Of ReceiptDTO)) As Result
+		Return selectALL_ByDate(dateCollected, receipts)
 	End Function
-	Public Function selectAll_ByCustomer(customerID As String, ByRef receipts As List(Of ReceiptDTO)) As Result
-		Return receiptDAL.selectAll_ByCustomer(customerID, receipts)
+	Public Function selectALL_ByCustomer(customerID As String, ByRef receipts As List(Of ReceiptDTO)) As Result
+		Return selectALL_ByCustomer(customerID, receipts)
 	End Function
 
 	Public Function update(receipt As ReceiptDTO) As Result
-		Return receiptDAL.update(receipt)
+		Return update(receipt)
 	End Function
 
 	Public Function delete(receiptID As String) As Result
-		Return receiptDAL.delete(receiptID)
+		Return delete(receiptID)
 	End Function
 End Class

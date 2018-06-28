@@ -14,34 +14,34 @@ Public Class StockReportDetailBUS
 	End Sub
 
 	Public Function getNextId(ByRef nextId As Integer) As Result
-		Return stockReportDetailDAL.getNextId(nextId)
+		Return getNextId(nextId)
 	End Function
 
 	Public Function insert(stockReportDetail As StockReportDetailDTO) As Result
-		Return stockReportDetailDAL.insert(stockReportDetail)
+		Return insert(stockReportDetail)
 	End Function
 
 	Public Function insertAll(stockReportDetails As List(Of StockReportDetailDTO)) As Result
-		Return stockReportDetailDAL.insertAll(stockReportDetails)
+		Return insertAll(stockReportDetails)
 	End Function
 
-	Public Function selectAll(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
-		Return stockReportDetailDAL.selectAll(stockReportDetails)
+	Public Function selectALL(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+		Return selectALL(stockReportDetails)
 	End Function
 
-	Public Function selectAll_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
-		Return stockReportDetailDAL.selectAll_ByStockReport(stockReportID, stockReportDetails)
+	Public Function selectALL_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+		Return selectALL_ByStockReport(stockReportID, stockReportDetails)
 	End Function
 
-	Public Function selectAll_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
-		Return stockReportDetailDAL.selectAll_ByBook(bookID, stockReportDetails)
+	Public Function selectALL_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+		Return selectALL_ByBook(bookID, stockReportDetails)
 	End Function
 
 	Public Function update(stockReportDetail As StockReportDetailDTO) As Result
-		Return stockReportDetailDAL.update(stockReportDetail)
+		Return update(stockReportDetail)
 	End Function
 
 	Public Function delete(stockReportDetailID As String) As Result
-		Return stockReportDetailDAL.delete(stockReportDetailID)
+		Return delete(stockReportDetailID)
 	End Function
 End Class
