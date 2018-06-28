@@ -124,7 +124,8 @@ Public Class BookDAL
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
-		query &= "FROM [Book]"
+		query &= "FROM [Book] "
+		query &= "ORDER BY [ID] DESC"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -166,12 +167,13 @@ Public Class BookDAL
 		Return New Result(True)
 	End Function
 
-	Public Function selectAll_ByAuthorID(authorID As String, ByRef books As List(Of BookDTO)) As Result
+	Public Function selectAll_ByAuthor(authorID As String, ByRef books As List(Of BookDTO)) As Result
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
 		query &= "FROM [Book] "
 		query &= "WHERE [Book].[AuthorID] = @AuthorID"
+		query &= " ORDER BY [ID] DESC"
 
 		Using conn As New SqlConnection(connectionStr)
 
@@ -214,12 +216,13 @@ Public Class BookDAL
 		Return New Result(True)
 	End Function
 
-	Public Function selectAll_ByBookCategoryID(bookCategoryID As String, ByRef books As List(Of BookDTO)) As Result
+	Public Function selectAll_ByBookCategory(bookCategoryID As String, ByRef books As List(Of BookDTO)) As Result
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [Name], [AuthorID], [BookCategoryID], [Stock], [Price] "
 		query &= "FROM [Book] "
 		query &= "WHERE [Book].[BookCategoryID] = @BookCategoryID"
+		query &= " ORDER BY [ID] DESC"
 
 		Using conn As New SqlConnection(connectionStr)
 
