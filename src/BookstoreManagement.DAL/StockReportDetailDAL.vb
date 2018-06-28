@@ -46,7 +46,7 @@ Public Class StockReportDetailDAL
 					End If
 
 
-					idOnDB.IncrementID("STOCKRPDTL", "D8")
+					idOnDB.IncrementID("STOCKRPDTL", "D4")
 					nextId = idOnDB
 
 				Catch exception As Exception
@@ -130,6 +130,9 @@ Public Class StockReportDetailDAL
 
 				Try
 					For Each stockReportDetail As StockReportDetailDTO In stockReportDetails
+						conn.Close()
+						comm.Parameters.Clear()
+
 						Dim nextID = String.Empty
 						Dim result As Result
 
@@ -171,7 +174,7 @@ Public Class StockReportDetailDAL
 		Return New Result(True)
 	End Function
 
-	Public Function selectALL(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+	Public Function selectAll(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [StockReportID], [BookID], [OpeningStock], [NewStock], [ClosingStock] "
@@ -219,7 +222,7 @@ Public Class StockReportDetailDAL
 		Return New Result(True)
 	End Function
 
-	Public Function selectALL_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+	Public Function selectAll_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [StockReportID], [BookID], [OpeningStock], [NewStock], [ClosingStock] "
 		query &= "FROM [StockReportDetail] "
@@ -268,7 +271,7 @@ Public Class StockReportDetailDAL
 		Return New Result(True)
 	End Function
 
-	Public Function selectALL_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+	Public Function selectAll_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [StockReportID], [BookID], [OpeningStock], [NewStock], [ClosingStock] "

@@ -46,7 +46,7 @@ Public Class ImportDetailDAL
 						End While
 					End If
 
-					idOnDB.IncrementID("IMPORTDETAIL", "D8")
+					idOnDB.IncrementID("IMPORTDETAIL", "D4")
 					nextId = idOnDB
 
 				Catch exception As Exception
@@ -267,8 +267,7 @@ Public Class ImportDetailDAL
 		Return New Result(True)
 	End Function
 
-	Public Function selectAll_ByBookID(bookID As String, ByRef importDetails As List(Of ImportDetailDTO))
-
+	Public Function selectAll_ByBook(bookID As String, ByRef importDetails As List(Of ImportDetailDTO))
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [ImportID], [BookID], [ImportAmount], [ImportPrice] "

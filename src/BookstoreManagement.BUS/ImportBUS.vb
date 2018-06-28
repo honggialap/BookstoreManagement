@@ -21,7 +21,7 @@ Public Class ImportBUS
 		Return importDAL.getNextId(nextId)
 	End Function
 
-	Public Function selectALL(ByRef _imports As List(Of ImportDTO)) As Result
+	Public Function selectAll(ByRef _imports As List(Of ImportDTO)) As Result
 		Return importDAL.selectAll(_imports)
 	End Function
 

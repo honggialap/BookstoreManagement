@@ -44,7 +44,7 @@ Public Class frmImport
 		Dim _imports As List(Of ImportDTO) = New List(Of ImportDTO)
 		Dim result As Result
 
-		result = importBUS.selectALL(_imports)
+		result = importBUS.selectAll(_imports)
 
 		If (result.FlagResult = True) Then ' Add next Import ID
 			result = importBUS.getNextId(nextImportID)
@@ -350,7 +350,7 @@ Public Class frmImport
 		Dim changedImportDetail = GetImportDetailFromCellsIndex(e.RowIndex)
 
 		If (changedImportDetail.ID = Nothing) Then
-			nextImportDetailID.IncrementID("IMPORTDETAIL", "D8")
+			nextImportDetailID.IncrementID("IMPORTDETAIL", "D4")
 			changedImportDetail.ID = nextImportDetailID
 			SelectedImportDetail = changedImportDetail 'TODO: remove this line?
 			Return

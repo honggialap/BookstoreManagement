@@ -46,7 +46,7 @@ Public Class DebtReportDetailDAL
 					End If
 
 
-					idOnDB.IncrementID("DEBTRPDTL", "D8")
+					idOnDB.IncrementID("DEBTRPDTL", "D4")
 					nextId = idOnDB
 
 				Catch exception As Exception
@@ -130,6 +130,9 @@ Public Class DebtReportDetailDAL
 
 				Try
 					For Each debtReportDetail As DebtReportDetailDTO In debtReportDetails
+						conn.Close()
+						comm.Parameters.Clear()
+
 						Dim nextID = String.Empty
 						Dim result As Result
 
