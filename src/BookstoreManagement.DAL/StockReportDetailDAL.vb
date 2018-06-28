@@ -171,7 +171,7 @@ Public Class StockReportDetailDAL
 		Return New Result(True)
 	End Function
 
-	Public Function sellectALL(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+	Public Function selectALL(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [StockReportID], [BookID], [OpeningStock], [NewStock], [ClosingStock] "
@@ -219,7 +219,7 @@ Public Class StockReportDetailDAL
 		Return New Result(True)
 	End Function
 
-	Public Function sellectALL_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+	Public Function selectALL_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [StockReportID], [BookID], [OpeningStock], [NewStock], [ClosingStock] "
 		query &= "FROM [StockReportDetail] "
@@ -268,7 +268,7 @@ Public Class StockReportDetailDAL
 		Return New Result(True)
 	End Function
 
-	Public Function sellectALL_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+	Public Function selectALL_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
 
 		Dim query As String = String.Empty
 		query &= "SELECT [ID], [StockReportID], [BookID], [OpeningStock], [NewStock], [ClosingStock] "

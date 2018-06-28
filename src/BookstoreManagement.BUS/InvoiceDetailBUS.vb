@@ -33,7 +33,7 @@ Public Class InvoiceDetailBUS
 		Return invoiceDetailDAL.selectAll_ByInvoiceID(invoiceID, invoiceDetails)
 	End Function
 
-	Public Function sellectALL_ByBook(bookID As String, ByRef invoiceDetails As List(Of InvoiceDetailDTO)) As Result
+	Public Function selectALL_ByBook(bookID As String, ByRef invoiceDetails As List(Of InvoiceDetailDTO)) As Result
 		Return invoiceDetailDAL.selectAll_ByBookID(bookID, invoiceDetails)
 	End Function
 
