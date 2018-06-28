@@ -25,16 +25,16 @@ Public Class StockReportDetailBUS
 		Return insertAll(stockReportDetails)
 	End Function
 
-	Public Function sellectALL(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
-		Return sellectALL(stockReportDetails)
+	Public Function selectALL(ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+		Return selectALL(stockReportDetails)
 	End Function
 
-	Public Function sellectALL_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
-		Return sellectALL_ByStockReport(stockReportID, stockReportDetails)
+	Public Function selectALL_ByStockReport(stockReportID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+		Return selectALL_ByStockReport(stockReportID, stockReportDetails)
 	End Function
 
-	Public Function sellectALL_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
-		Return sellectALL_ByBook(bookID, stockReportDetails)
+	Public Function selectALL_ByBook(bookID As String, ByRef stockReportDetails As List(Of StockReportDetailDTO)) As Result
+		Return selectALL_ByBook(bookID, stockReportDetails)
 	End Function
 
 	Public Function update(stockReportDetail As StockReportDetailDTO) As Result

@@ -21,12 +21,12 @@ Public Class StockReportBUS
 		Return insert(stockReport)
 	End Function
 
-	Public Function sellectALL(ByRef stockReports As List(Of StockReportDTO)) As Result
-		Return sellectALL(stockReports)
+	Public Function selectALL(ByRef stockReports As List(Of StockReportDTO)) As Result
+		Return selectALL(stockReports)
 	End Function
 
-	Public Function sellectALL_ByDate(dateReported As DateTime, ByRef stockReports As List(Of StockReportDTO)) As Result
-		Return sellectALL_ByDate(dateReported, stockReports)
+	Public Function selectALL_ByDate(dateReported As DateTime, ByRef stockReports As List(Of StockReportDTO)) As Result
+		Return selectALL_ByDate(dateReported, stockReports)
 	End Function
 
 	Public Function update(stockReport As StockReportDTO) As Result

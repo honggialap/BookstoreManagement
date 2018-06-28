@@ -21,15 +21,15 @@ Public Class ReceiptBUS
 		Return insert(receipt)
 	End Function
 
-	Public Function sellectALL(ByRef receipts As List(Of ReceiptDTO)) As Result
-		Return sellectALL(receipts)
+	Public Function selectALL(ByRef receipts As List(Of ReceiptDTO)) As Result
+		Return selectALL(receipts)
 	End Function
 
-	Public Function sellectALL_ByDate(dateCollected As DateTime, ByRef receipts As List(Of ReceiptDTO)) As Result
-		Return sellectALL_ByDate(dateCollected, receipts)
+	Public Function selectALL_ByDate(dateCollected As DateTime, ByRef receipts As List(Of ReceiptDTO)) As Result
+		Return selectALL_ByDate(dateCollected, receipts)
 	End Function
-	Public Function sellectALL_ByCustomer(customerID As String, ByRef receipts As List(Of ReceiptDTO)) As Result
-		Return sellectALL_ByCustomer(customerID, receipts)
+	Public Function selectALL_ByCustomer(customerID As String, ByRef receipts As List(Of ReceiptDTO)) As Result
+		Return selectALL_ByCustomer(customerID, receipts)
 	End Function
 
 	Public Function update(receipt As ReceiptDTO) As Result
