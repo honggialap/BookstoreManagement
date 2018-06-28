@@ -21,11 +21,11 @@ Public Class DebtReportBUS
 		Return debtReportDAL.insert(debtReport)
 	End Function
 
-	Public Function selectALL(ByRef debtReports As List(Of DebtReportDTO)) As Result
+	Public Function selectAll(ByRef debtReports As List(Of DebtReportDTO)) As Result
 		Return debtReportDAL.selectAll(debtReports)
 	End Function
 
-	Public Function selectALL_ByDate(dateReport As DateTime, ByRef debtReports As List(Of DebtReportDTO)) As Result
+	Public Function selectAll_ByDate(dateReport As DateTime, ByRef debtReports As List(Of DebtReportDTO)) As Result
 		Return debtReportDAL.selectAll_ByDate(dateReport, debtReports)
 	End Function
 

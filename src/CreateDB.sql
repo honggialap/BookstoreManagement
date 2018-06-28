@@ -386,64 +386,59 @@ ALTER TABLE [dbo].[InvoiceDetail] CHECK CONSTRAINT [FK_InvoiceDetail_Invoice]
 GO
 
 
-/****** Insert Testing data ******/
+
+
+
+/****** BM1 TESTING DATA ******/
 USE [BookstoreManagement]
 GO
 
-INSERT INTO [dbo].[Author]
+/*****/
+DECLARE @i INT = 1;
+DECLARE @temp INT;
+DECLARE @temp2 INT;
+
+WHILE @i <= 10
+BEGIN
+  INSERT INTO [dbo].[Author]
            ([ID]
            ,[Name])
      VALUES
-           ('AUTHOR00000001'
-           ,'Testing Author')
-GO
+           (
+            CONVERT(NVARCHAR,'AUTHOR') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'Testing Author ') + CONVERT(NVARCHAR,@i)
+           )
 
-INSERT INTO [dbo].[Author]
+  SET @i = @i + 1;
+END
+
+
+/*****/
+SET @i = 1;
+WHILE @i <= 10
+BEGIN
+  INSERT INTO [dbo].[BookCategory]
            ([ID]
            ,[Name])
      VALUES
-           ('AUTHOR00000002'
-           ,'Testing Author 2')
-GO
+           (
+            CONVERT(NVARCHAR,'CATEGORY') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'Testing Book Category ') + CONVERT(NVARCHAR,@i)
+           )
 
-INSERT INTO [dbo].[Author]
-           ([ID]
-           ,[Name])
-     VALUES
-           ('AUTHOR00000003'
-           ,'Testing Author 3')
-GO
+  SET @i = @i + 1;
+END
 
 
-USE [BookstoreManagement]
-GO 
+/*****/
+SET @i = 1;
+WHILE @i <= 20
 
-INSERT INTO [dbo].[BookCategory]
-           ([ID]
-           ,[Name])
-     VALUES
-           ('CATEGORY00000001'
-           ,'Testing Book Category')
-GO
+BEGIN
 
-INSERT INTO [dbo].[BookCategory]
-           ([ID]
-           ,[Name])
-     VALUES
-           ('CATEGORY00000002'
-           ,'Testing Book Category 2')
-GO
-
-INSERT INTO [dbo].[BookCategory]
-           ([ID]
-           ,[Name])
-     VALUES
-           ('CATEGORY00000003'
-           ,'Testing Book Category 3')
-GO
-
-USE [BookstoreManagement]
-GO
+IF @i % 10 = 0
+SET @temp = 10
+ELSE SET @temp = @i % 10
 
 INSERT INTO [dbo].[Book]
            ([ID]
@@ -453,70 +448,58 @@ INSERT INTO [dbo].[Book]
            ,[Stock]
            ,[Price])
      VALUES
-           ('BOOK00000001'
-           ,'Testing book'
-           ,'AUTHOR00000001'
-           ,'CATEGORY00000001'
-           ,1000
-           ,1000)
-GO
-
-
-INSERT INTO [dbo].[Book]
-           ([ID]
-           ,[Name]
-           ,[AuthorID]
-           ,[BookCategoryID]
-           ,[Stock]
-           ,[Price])
-     VALUES
-           ('BOOK00000002'
-           ,'Testing book 2'
-           ,'AUTHOR00000002'
-           ,'CATEGORY00000002'
-           ,1000
-           ,1000)
-GO
-
-
-
-INSERT INTO [dbo].[Book]
-           ([ID]
-           ,[Name]
-           ,[AuthorID]
-           ,[BookCategoryID]
-           ,[Stock]
-           ,[Price])
-     VALUES
-           ('BOOK00000003'
-           ,'Testing book 3'
-           ,'AUTHOR00000003'
-           ,'CATEGORY00000003'
-           ,1000
-           ,1000)
+           (
+            CONVERT(NVARCHAR,'BOOK') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'Testing Book ') + CONVERT(NVARCHAR,@i)
+           ,CONVERT(NVARCHAR,'AUTHOR') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,CONVERT(NVARCHAR,'CATEGORY') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,@i * 100
+           ,@i * 100)
+  SET @i = @i + 1;
+END
 GO
 
 USE [BookstoreManagement]
 GO
 
+
+/*****/
+DECLARE @i INT = 1;
+DECLARE @temp INT;
+DECLARE @temp2 INT;
+SET @i = 1;
+WHILE @i <= 40
+
+BEGIN
 INSERT INTO [dbo].[Import]
            ([ID]
            ,[ImportDate])
      VALUES
-           ('IMPORT00000001'
-           ,convert(datetime,'7/15/2018 00:00:00'))
+           (
+            CONVERT(NVARCHAR,'IMPORT') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(datetime, DATEADD(day, @i,'1/1/2018'))
+           )
+  SET @i = @i + 1;
+END
 GO
 
-INSERT INTO [dbo].[Import]
-           ([ID]
-           ,[ImportDate])
-     VALUES
-           ('IMPORT00000002'
-           ,convert(datetime,'7/20/2018 00:00:00'))
-GO
 
-USE [BookstoreManagement]
-GO
+/****/
+DECLARE @i INT = 1;
+DECLARE @temp INT;
+DECLARE @temp2 INT;
+SET @i = 1;
+WHILE @i <= 80
+
+BEGIN
+
+IF @i % 40 = 0
+SET @temp = 40
+ELSE SET @temp = @i % 40
+
+IF @i % 20 = 0
+SET @temp2 = 20
+ELSE SET @temp2 = @i % 20
 
 INSERT INTO [dbo].[ImportDetail]
            ([ID]
@@ -525,218 +508,13 @@ INSERT INTO [dbo].[ImportDetail]
            ,[ImportAmount]
            ,[ImportPrice])
      VALUES
-           ('IMPORTDETAIL00000001'
-           ,'IMPORT00000001'
-           ,'BOOK00000001'
-           ,20
-           ,900)
-GO
-
-INSERT INTO [dbo].[ImportDetail]
-           ([ID]
-           ,[ImportID]
-           ,[BookID]
-           ,[ImportAmount]
-           ,[ImportPrice])
-     VALUES
-           ('IMPORTDETAIL00000002'
-           ,'IMPORT00000001'
-           ,'BOOK00000002'
-           ,30
-           ,950)
-GO
-
-INSERT INTO [dbo].[ImportDetail]
-           ([ID]
-           ,[ImportID]
-           ,[BookID]
-           ,[ImportAmount]
-           ,[ImportPrice])
-     VALUES
-           ('IMPORTDETAIL00000003'
-           ,'IMPORT00000002'
-           ,'BOOK00000003'
-           ,20
-           ,800)
-GO
-
-
-INSERT INTO [dbo].[Customer]
-           ([ID]
-           ,[Name]
-           ,[Address]
-           ,[Email]
-           ,[PhoneNumber]
-           ,[CurrentDebt])
-     VALUES
-           ('CUSTOMER00000001'
-           ,'Testing Customer 1'
-           ,'My home'
-           ,'Stupid@email.com'
-           ,'0909090909'
-           ,200000)
-GO
-
-INSERT INTO [dbo].[Customer]
-           ([ID]
-           ,[Name]
-           ,[Address]
-           ,[Email]
-           ,[PhoneNumber]
-           ,[CurrentDebt])
-     VALUES
-           ('CUSTOMER00000002'
-           ,'Testing Customer 2'
-           ,'My home 2'
-           ,'Stupid2@email.com'
-           ,'0909090908'
-           ,300000)
-GO
-
-INSERT INTO [dbo].[Customer]
-           ([ID]
-           ,[Name]
-           ,[Address]
-           ,[Email]
-           ,[PhoneNumber]
-           ,[CurrentDebt])
-     VALUES
-           ('CUSTOMER00000003'
-           ,'Testing Customer 3'
-           ,'My home 3'
-           ,'Stupid3@email.com'
-           ,'0909090907'
-           ,400000)
-GO
-
-
-INSERT INTO [dbo].[Invoice]
-           ([ID]
-           ,[CustomerID]
-           ,[InvoiceDate])
-     VALUES
-           ('INVOICE00000001'
-           ,'CUSTOMER00000001'
-           ,convert(datetime,'9/20/2018 00:00:00'))
-GO
-
-
-INSERT INTO [dbo].[Invoice]
-           ([ID]
-           ,[CustomerID]
-           ,[InvoiceDate])
-     VALUES
-           ('INVOICE00000002'
-           ,'CUSTOMER00000002'
-           ,convert(datetime,'9/15/2018 00:00:00'))
-GO
-
-INSERT INTO [dbo].[Invoice]
-           ([ID]
-           ,[CustomerID]
-           ,[InvoiceDate])
-     VALUES
-           ('INVOICE00000003'
-           ,'CUSTOMER00000002'
-           ,convert(datetime,'9/20/2018 00:00:00'))
-GO
-
-INSERT INTO [dbo].[Invoice]
-           ([ID]
-           ,[CustomerID]
-           ,[InvoiceDate])
-     VALUES
-           ('INVOICE00000004'
-           ,'CUSTOMER00000003'
-           ,convert(datetime,'10/20/2018 00:00:00'))
-GO
-
-
-INSERT INTO [dbo].[InvoiceDetail]
-           ([ID]
-           ,[InvoiceID]
-           ,[BookID]
-           ,[Amount]
-           ,[SalesPrice])
-     VALUES
-           ('INVOICEDETAIL0000001'
-           ,'INVOICE00000001'
-           ,'BOOK00000001'
-           ,20
-           ,300)
-GO
-
-
-INSERT INTO [dbo].[InvoiceDetail]
-           ([ID]
-           ,[InvoiceID]
-           ,[BookID]
-           ,[Amount]
-           ,[SalesPrice])
-     VALUES
-           ('INVOICEDETAIL0000002'
-           ,'INVOICE00000001'
-           ,'BOOK00000002'
-           ,30
-           ,400)
-GO
-
-
-INSERT INTO [dbo].[InvoiceDetail]
-           ([ID]
-           ,[InvoiceID]
-           ,[BookID]
-           ,[Amount]
-           ,[SalesPrice])
-     VALUES
-           ('INVOICEDETAIL0000003'
-           ,'INVOICE00000002'
-           ,'BOOK00000003'
-           ,20
-           ,300)
-GO
-
-
-INSERT INTO [dbo].[InvoiceDetail]
-           ([ID]
-           ,[InvoiceID]
-           ,[BookID]
-           ,[Amount]
-           ,[SalesPrice])
-     VALUES
-           ('INVOICEDETAIL0000004'
-           ,'INVOICE00000003'
-           ,'BOOK00000002'
-           ,20
-           ,300)
-GO
-
-
-INSERT INTO [dbo].[InvoiceDetail]
-           ([ID]
-           ,[InvoiceID]
-           ,[BookID]
-           ,[Amount]
-           ,[SalesPrice])
-     VALUES
-           ('INVOICEDETAIL0000005'
-           ,'INVOICE00000003'
-           ,'BOOK00000003'
-           ,20
-           ,300)
-GO
-
-
-INSERT INTO [dbo].[InvoiceDetail]
-           ([ID]
-           ,[InvoiceID]
-           ,[BookID]
-           ,[Amount]
-           ,[SalesPrice])
-     VALUES
-           ('INVOICEDETAIL0000006'
-           ,'INVOICE00000004'
-           ,'BOOK00000001'
-           ,20
-           ,300)
+           (
+            CONVERT(NVARCHAR,'IMPORTDETAIL') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'IMPORT') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,CONVERT(NVARCHAR,'BOOK') + CONVERT(NVARCHAR,FORMAT(@temp2,'d4'))
+           ,(@i * 2)
+           ,(@i * 1000 - 300)
+           )
+  SET @i = @i + 1;
+END
 GO
