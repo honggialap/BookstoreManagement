@@ -87,8 +87,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Parameter](
-	[MinImportQuanity] [int] NULL,
-	[MinStockBeforeImport] [int] NULL,
+	[MinImportAmount] [int] NULL,
+	[MaxStockBeforeImport] [int] NULL,
 	[MinStockAfterSales] [int] NULL,
 	[MaxDebt] [int] NULL,
 	[UseRegulation] [bit] NULL
@@ -518,3 +518,21 @@ INSERT INTO [dbo].[ImportDetail]
   SET @i = @i + 1;
 END
 GO
+
+
+INSERT INTO [dbo].[Parameter]
+(
+	[MinImportAmount],
+	[MaxStockBeforeImport],
+	[MinStockAfterSales],
+	[MaxDebt],
+	[UseRegulation]
+)
+VALUES
+(
+	150,
+	299,
+	20,
+	20000,
+	1
+)
