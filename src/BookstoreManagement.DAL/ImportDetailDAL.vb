@@ -129,6 +129,7 @@ Public Class ImportDetailDAL
 				Try
 					For Each importDetail As ImportDetailDTO In importDetails
 						conn.Close()
+						comm.Parameters.Clear()
 
 						Dim nextID = String.Empty
 						Dim result As Result

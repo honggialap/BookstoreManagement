@@ -169,7 +169,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[StockReportDetail](
 	[ID] [nvarchar](20) NOT NULL,
-	[StockReportID] [nvarchar](10) NULL,
+	[StockReportID] [nvarchar](20) NULL,
 	[BookID] [nvarchar](20) NULL,
 	[OpeningStock] [int] NULL,
 	[NewStock] [int] NULL,
@@ -332,7 +332,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Invoice](
 	[ID] [nvarchar](20) NOT NULL,
-	[CustomerID] [nvarchar](10) NULL,
+	[CustomerID] [nvarchar](20) NULL,
 	[InvoiceDate] [smalldatetime] NULL,
  CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
 (
