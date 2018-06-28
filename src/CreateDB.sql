@@ -1,6 +1,17 @@
 USE [master]
 GO
 
+WHILE EXISTS(select NULL from sys.databases where name='BookstoreManagement')
+BEGIN
+    DECLARE @SQL varchar(max)
+    SELECT @SQL = COALESCE(@SQL,'') + 'Kill ' + Convert(varchar, SPId) + ';'
+    FROM MASTER..SysProcesses
+    WHERE DBId = DB_ID(N'BookstoreManagement') AND SPId <> @@SPId
+    EXEC(@SQL)
+    DROP DATABASE [BookstoreManagement]
+END
+GO
+
 /****** Object:  Database [BookstoreManagement]    Script Date: 5/23/2018 4:12:51 PM ******/
 CREATE DATABASE [BookstoreManagement]
  CONTAINMENT = NONE
@@ -154,7 +165,7 @@ CREATE TABLE [dbo].[StockReport](
 	[Month] [int] NULL,
 	[Year] [int] NULL,
 	*/
-	[DateReport] [smalldatetime] NULL,
+	[ReportDate] [smalldatetime] NULL,
  CONSTRAINT [PK_StockReport] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -169,7 +180,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[StockReportDetail](
 	[ID] [nvarchar](20) NOT NULL,
-	[StockReportID] [nvarchar](10) NULL,
+	[StockReportID] [nvarchar](20) NULL,
 	[BookID] [nvarchar](20) NULL,
 	[OpeningStock] [int] NULL,
 	[NewStock] [int] NULL,
@@ -264,7 +275,7 @@ CREATE TABLE [dbo].[DebtReport](
 	[Month] [int] NULL,
 	[Year] [int] NULL,
 	*/
-	[DateReport] [smalldatetime] NULL,
+	[ReportDate] [smalldatetime] NULL,
  CONSTRAINT [PK_DebtReport] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -310,8 +321,7 @@ GO
 CREATE TABLE [dbo].[Receipt](
 	[ID] [nvarchar](20) NOT NULL,
 	[CustomerID] [nvarchar](20) NULL,
-	[DateCollect] [smalldatetime] NULL,
-	[DebtBeforeCollection] [int] NULL,
+	[CollectedDate] [smalldatetime] NULL,
 	[CollectedAmount] [int] NULL,
  CONSTRAINT [PK_Receipt] PRIMARY KEY CLUSTERED 
 (
@@ -332,7 +342,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Invoice](
 	[ID] [nvarchar](20) NOT NULL,
-	[CustomerID] [nvarchar](10) NULL,
+	[CustomerID] [nvarchar](20) NULL,
 	[InvoiceDate] [smalldatetime] NULL,
  CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
 (
@@ -694,7 +704,7 @@ INSERT INTO [dbo].[InvoiceDetail]
            ,[Amount]
            ,[SalesPrice])
      VALUES
-           ('INVOICEDETAIL0000003'
+           ('INVOICEDETAIL0000004'
            ,'INVOICE00000003'
            ,'BOOK00000002'
            ,20
@@ -709,7 +719,7 @@ INSERT INTO [dbo].[InvoiceDetail]
            ,[Amount]
            ,[SalesPrice])
      VALUES
-           ('INVOICEDETAIL0000004'
+           ('INVOICEDETAIL0000005'
            ,'INVOICE00000003'
            ,'BOOK00000003'
            ,20
@@ -724,7 +734,7 @@ INSERT INTO [dbo].[InvoiceDetail]
            ,[Amount]
            ,[SalesPrice])
      VALUES
-           ('INVOICEDETAIL0000005'
+           ('INVOICEDETAIL0000006'
            ,'INVOICE00000004'
            ,'BOOK00000001'
            ,20
