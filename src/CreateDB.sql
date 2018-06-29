@@ -89,8 +89,8 @@ GO
 CREATE TABLE [dbo].[Parameter](
 	[MinImportAmount] [int] NULL,
 	[MaxStockBeforeImport] [int] NULL,
+  [MaxDebt] [int] NULL,
 	[MinStockAfterSales] [int] NULL,
-	[MaxDebt] [int] NULL,
 	[UseRegulation] [bit] NULL
 ) ON [PRIMARY]
 GO
@@ -394,16 +394,16 @@ INSERT INTO [dbo].[Parameter]
 (
 	[MinImportAmount],
 	[MaxStockBeforeImport],
+  [MaxDebt],
 	[MinStockAfterSales],
-	[MaxDebt],
 	[UseRegulation]
 )
 VALUES
 (
 	150,
 	299,
-	20,
 	20000,
+	20,
 	1
 )
 
@@ -578,7 +578,7 @@ GO
 DECLARE @i INT = 1;
 DECLARE @temp INT;
 SET @i = 1;
-WHILE @i <= 40
+WHILE @i <= 20
 
 BEGIN
 IF @i % 10 = 0
@@ -604,6 +604,7 @@ USE [BookstoreManagement]
 GO
 DECLARE @i INT = 1;
 DECLARE @temp INT;
+DECLARE @temp2 INT;
 SET @i = 1;
 WHILE @i <= 320
 
@@ -612,6 +613,10 @@ BEGIN
 IF @i % 10 = 0
 SET @temp = 10
 ELSE SET @temp = @i % 10
+
+IF @i % 20 = 0
+SET @temp2 = 20
+ELSE SET @temp2 = @i % 20
 
 INSERT INTO [dbo].[InvoiceDetail]
            ([ID]
@@ -622,7 +627,7 @@ INSERT INTO [dbo].[InvoiceDetail]
      VALUES
            (
             CONVERT(NVARCHAR,'INVOICEDETAIL') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
-           ,CONVERT(NVARCHAR,'INVOICE') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,CONVERT(NVARCHAR,'INVOICE') + CONVERT(NVARCHAR,FORMAT(@temp2,'d4'))
            ,CONVERT(NVARCHAR,'BOOK') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
            ,(@i + @temp) * 13
            ,(@i + @temp) * 10
