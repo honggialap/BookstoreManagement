@@ -87,8 +87,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Parameter](
-	[MinImportQuanity] [int] NULL,
-	[MinStockBeforeImport] [int] NULL,
+	[MinImportAmount] [int] NULL,
+	[MaxStockBeforeImport] [int] NULL,
 	[MinStockAfterSales] [int] NULL,
 	[MaxDebt] [int] NULL,
 	[UseRegulation] [bit] NULL
@@ -391,20 +391,21 @@ GO
 USE [BookstoreManagement]
 GO
 INSERT INTO [dbo].[Parameter]
-           ([MinImportQuanity]
-           ,[MinStockBeforeImport]
-           ,[MinStockAfterSales]
-           ,[MaxDebt]
-           ,[UseRegulation])
-     VALUES
-           (
-            150
-           ,300
-           ,20
-           ,20000
-           ,1
-           )
-GO
+(
+	[MinImportAmount],
+	[MaxStockBeforeImport],
+	[MinStockAfterSales],
+	[MaxDebt],
+	[UseRegulation]
+)
+VALUES
+(
+	150,
+	299,
+	20,
+	20000,
+	1
+)
 
 /****** BM1 TESTING DATA ******/
 
