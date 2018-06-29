@@ -387,16 +387,31 @@ GO
 
 
 
-
-
-/****** BM1 TESTING DATA ******/
+/****** Default Parameter ******/
 USE [BookstoreManagement]
 GO
+INSERT INTO [dbo].[Parameter]
+           ([MinImportQuanity]
+           ,[MinStockBeforeImport]
+           ,[MinStockAfterSales]
+           ,[MaxDebt]
+           ,[UseRegulation])
+     VALUES
+           (
+            150
+           ,300
+           ,20
+           ,20000
+           ,1
+           )
+GO
+
+/****** BM1 TESTING DATA ******/
 
 /*****/
+USE [BookstoreManagement]
+GO
 DECLARE @i INT = 1;
-DECLARE @temp INT;
-DECLARE @temp2 INT;
 
 WHILE @i <= 10
 BEGIN
@@ -414,6 +429,9 @@ END
 
 
 /*****/
+USE [BookstoreManagement]
+GO
+DECLARE @i INT = 1;
 SET @i = 1;
 WHILE @i <= 10
 BEGIN
@@ -431,6 +449,10 @@ END
 
 
 /*****/
+USE [BookstoreManagement]
+GO
+DECLARE @i INT = 1;
+DECLARE @temp INT;
 SET @i = 1;
 WHILE @i <= 20
 
@@ -459,14 +481,10 @@ INSERT INTO [dbo].[Book]
 END
 GO
 
+/*****/
 USE [BookstoreManagement]
 GO
-
-
-/*****/
 DECLARE @i INT = 1;
-DECLARE @temp INT;
-DECLARE @temp2 INT;
 SET @i = 1;
 WHILE @i <= 40
 
@@ -485,11 +503,13 @@ GO
 
 
 /****/
+USE [BookstoreManagement]
+GO
 DECLARE @i INT = 1;
 DECLARE @temp INT;
 DECLARE @temp2 INT;
 SET @i = 1;
-WHILE @i <= 80
+WHILE @i <= 320
 
 BEGIN
 
@@ -514,6 +534,126 @@ INSERT INTO [dbo].[ImportDetail]
            ,CONVERT(NVARCHAR,'BOOK') + CONVERT(NVARCHAR,FORMAT(@temp2,'d4'))
            ,(@i * 2)
            ,(@i * 1000 - 300)
+           )
+  SET @i = @i + 1;
+END
+GO
+
+/******/
+USE [BookstoreManagement]
+GO
+
+DECLARE @i INT = 1;
+SET @i = 1;
+WHILE @i <= 10
+
+BEGIN
+
+
+INSERT INTO [dbo].[Customer]
+           ([ID]
+           ,[Name]
+           ,[Address]
+           ,[Email]
+           ,[PhoneNumber]
+           ,[CurrentDebt])
+     VALUES
+           (
+            CONVERT(NVARCHAR,'CUSTOMER') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'Testing Customer ') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'Home number ') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'Customer') + CONVERT(NVARCHAR,FORMAT(@i,'d4')) + CONVERT(NVARCHAR,'@email.com')
+           ,CONVERT(NVARCHAR,FORMAT(@i * 120 - 4,'d10'))
+           ,1250 * @i
+           )
+  SET @i = @i + 1;
+END
+GO
+
+/*****/
+
+USE [BookstoreManagement]
+GO
+DECLARE @i INT = 1;
+DECLARE @temp INT;
+SET @i = 1;
+WHILE @i <= 40
+
+BEGIN
+IF @i % 10 = 0
+SET @temp = 10
+ELSE SET @temp = @i % 10
+
+INSERT INTO [dbo].[Invoice]
+           ([ID]
+           ,[CustomerID]
+           ,[InvoiceDate])
+     VALUES
+           (
+            CONVERT(NVARCHAR,'INVOICE') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'CUSTOMER') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,CONVERT(datetime, DATEADD(day, @i,'6/1/2018'))
+           )
+  SET @i = @i + 1;
+END
+GO
+
+/*******/
+USE [BookstoreManagement]
+GO
+DECLARE @i INT = 1;
+DECLARE @temp INT;
+SET @i = 1;
+WHILE @i <= 320
+
+BEGIN
+
+IF @i % 10 = 0
+SET @temp = 10
+ELSE SET @temp = @i % 10
+
+INSERT INTO [dbo].[InvoiceDetail]
+           ([ID]
+           ,[InvoiceID]
+           ,[BookID]
+           ,[Amount]
+           ,[SalesPrice])
+     VALUES
+           (
+            CONVERT(NVARCHAR,'INVOICEDETAIL') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'INVOICE') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,CONVERT(NVARCHAR,'BOOK') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,(@i + @temp) * 13
+           ,(@i + @temp) * 10
+           )
+  SET @i = @i + 1;
+END
+GO
+
+/******/
+USE [BookstoreManagement]
+GO
+DECLARE @i INT = 1;
+DECLARE @temp INT;
+SET @i = 1;
+WHILE @i <= 20
+
+BEGIN
+IF @i % 10 = 0
+SET @temp = 10
+ELSE SET @temp = @i % 10
+
+INSERT INTO [dbo].[Receipt]
+           ([ID]
+           ,[CustomerID]
+           ,[CollectedDate]
+           ,[CollectedAmount])
+     VALUES
+           (
+            CONVERT(NVARCHAR,'RECEIPT') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
+           ,CONVERT(NVARCHAR,'CUSTOMER') + CONVERT(NVARCHAR,FORMAT(@temp,'d4'))
+           ,CONVERT(datetime, DATEADD(day, @i,'8/1/2018'))
+           ,@i * 1000
            )
   SET @i = @i + 1;
 END
