@@ -27,4 +27,9 @@ Public Class frmMain
 		Dim frm As frmInvoice = New frmInvoice()
 		frm.ShowDialog()
 	End Sub
+
+	Private Sub tlSearch_Click(sender As Object, e As EventArgs) Handles tlSearch.Click
+		Dim frm As frmSearch = New frmSearch()
+		frm.ShowDialog()
+	End Sub
 End Class
