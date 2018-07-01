@@ -22,6 +22,7 @@ Partial Class frmMain
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
 		Me.pnlMainMenu = New MetroFramework.Controls.MetroPanel()
 		Me.lkAbout = New MetroFramework.Controls.MetroLink()
 		Me.tlAuthor = New MetroFramework.Controls.MetroTile()
@@ -254,7 +255,10 @@ Partial Class frmMain
 		Me.ClientSize = New System.Drawing.Size(750, 400)
 		Me.Controls.Add(Me.lkAbout)
 		Me.Controls.Add(Me.pnlMainMenu)
+		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+		Me.MaximizeBox = False
 		Me.Name = "frmMain"
+		Me.Resizable = False
 		Me.Text = "Main Menu"
 		Me.TransparencyKey = System.Drawing.Color.Empty
 		Me.pnlMainMenu.ResumeLayout(False)

@@ -5,31 +5,39 @@ Imports MetroFramework
 Imports MetroFramework.Drawing
 
 Public Class frmMain
-	Public Sub New()
+	Private privilege As Integer
 
-		' This call is required by the designer.
+	Public Sub New(privilege As Integer)
+		Me.privilege = privilege
+
 		InitializeComponent()
 
-		' Add any initialization after the InitializeComponent() call.
-
-		tlImport.BackColor = MetroPaint.GetStyleColor(MetroFramework.MetroColorStyle.Red)
-		tlInvoice.BackColor = MetroPaint.GetStyleColor(MetroFramework.MetroColorStyle.Yellow)
-		tlSearch.BackColor = MetroPaint.GetStyleColor(MetroFramework.MetroColorStyle.Green)
-		tlReceipt.BackColor = MetroPaint.GetStyleColor(MetroFramework.MetroColorStyle.Orange)
-		tlStockReport.BackColor = MetroPaint.GetStyleColor(MetroFramework.MetroColorStyle.Lime)
-		tlDebtReport.BackColor = MetroPaint.GetStyleColor(MetroFramework.MetroColorStyle.Teal)
-		tlRegulation.BackColor = MetroPaint.GetStyleColor(MetroFramework.MetroColorStyle.Silver)
+		tlImport.BackColor = MetroPaint.GetStyleColor(MetroColorStyle.Red)
+		tlInvoice.BackColor = MetroPaint.GetStyleColor(MetroColorStyle.Yellow)
+		tlSearch.BackColor = MetroPaint.GetStyleColor(MetroColorStyle.Green)
+		tlReceipt.BackColor = MetroPaint.GetStyleColor(MetroColorStyle.Orange)
+		tlStockReport.BackColor = MetroPaint.GetStyleColor(MetroColorStyle.Lime)
+		tlDebtReport.BackColor = MetroPaint.GetStyleColor(MetroColorStyle.Teal)
+		tlRegulation.BackColor = MetroPaint.GetStyleColor(MetroColorStyle.Silver)
 	End Sub
 
 	Private Sub tlImport_Click(sender As Object, e As EventArgs) Handles tlImport.Click
-		Dim frm As frmImport = New frmImport()
-		'frm.MdiParent = Me
-		frm.ShowDialog()
+		If (privilege <= 2) Then
+			Dim frm As frmImport = New frmImport()
+			'frm.MdiParent = Me
+			frm.ShowDialog()
+		Else
+			MetroMessageBox.Show(Me, "You do not have enough permission", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End If
 	End Sub
 
 	Private Sub tlInvoice_Click(sender As Object, e As EventArgs) Handles tlInvoice.Click
-		Dim frm As frmInvoice = New frmInvoice()
-		frm.ShowDialog()
+		If (privilege <= 2) Then
+			Dim frm As frmInvoice = New frmInvoice()
+			frm.ShowDialog()
+		Else
+			MetroMessageBox.Show(Me, "You do not have enough permission", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End If
 	End Sub
 
 	Private Sub tlAuthor_Click(sender As Object, e As EventArgs) Handles tlAuthor.Click
@@ -58,16 +66,25 @@ Public Class frmMain
 	End Sub
 
 	Private Sub tlReceipt_Click(sender As Object, e As EventArgs) Handles tlReceipt.Click
-		Dim frm As frmReceipt = New frmReceipt()
-		frm.ShowDialog()
+		If (privilege <= 2) Then
+			Dim frm As frmReceipt = New frmReceipt()
+			frm.ShowDialog()
+		Else
+			MetroMessageBox.Show(Me, "You do not have enough permission", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End If
 	End Sub
 
 	Private Sub lkAbout_Click(sender As Object, e As EventArgs) Handles lkAbout.Click
-
+		Dim frm As frmAbout = New frmAbout()
+		frm.ShowDialog()
 	End Sub
 
 	Private Sub tlRegulation_Click(sender As Object, e As EventArgs) Handles tlRegulation.Click
-		Dim frm As frmRegulation = New frmRegulation()
-		frm.ShowDialog()
+		If (privilege = 1) Then
+			Dim frm As frmRegulation = New frmRegulation()
+			frm.ShowDialog()
+		Else
+			MetroMessageBox.Show(Me, "You do not have enough permission", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End If
 	End Sub
 End Class
