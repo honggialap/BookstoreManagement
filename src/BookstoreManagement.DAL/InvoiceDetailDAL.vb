@@ -52,7 +52,7 @@ Public Class InvoiceDetailDAL
 
 				Catch exception As Exception
 
-					Debug.WriteLine("Get next invoice detail ID failed")
+					'Debug.WriteLine("Get next invoice detail ID failed")
 					Return New Result(False, "Get next invoice detail ID failed", exception.StackTrace)
 
 				Finally
@@ -63,7 +63,7 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Get next invoice detail ID succeed")
+		'Debug.WriteLine("Get next invoice detail ID succeed")
 		Return New Result(True)
 	End Function
 
@@ -104,7 +104,7 @@ Public Class InvoiceDetailDAL
 
 				Catch exception As Exception
 
-					Debug.WriteLine("Insert invoice detail failed")
+					'Debug.WriteLine("Insert invoice detail failed")
 					Return New Result(False, "Insert invoice detail failed", exception.StackTrace)
 
 				Finally
@@ -115,7 +115,7 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Insert invoice detail succeed")
+		'Debug.WriteLine("Insert invoice detail succeed")
 		Return New Result(True)
 	End Function
 
@@ -159,7 +159,7 @@ Public Class InvoiceDetailDAL
 					Next
 				Catch exception As Exception
 
-					Debug.WriteLine("Insert invoice details failed")
+					'Debug.WriteLine("Insert invoice details failed")
 					Return New Result(False, "Insert invoice details failed", exception.StackTrace)
 
 				Finally
@@ -170,54 +170,7 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Insert invoice details succeed")
-		Return New Result(True)
-	End Function
-
-	Public Function selectAll(ByRef invoiceDetails As List(Of InvoiceDetailDTO)) As Result
-
-		Dim query As String = String.Empty
-		query &= "SELECT [ID], [InvoiceID], [BookID], [Amount], [SalesPrice] "
-		query &= "FROM [InvoiceDetail] "
-		query &= "ORDER BY [ID] DESC"
-
-		Using conn As New SqlConnection(connectionStr)
-
-			Using comm As New SqlCommand()
-
-				With comm
-					.Connection = conn
-					.CommandType = CommandType.Text
-					.CommandText = query
-				End With
-
-				Try
-					conn.Open()
-
-					Dim reader As SqlDataReader
-					reader = comm.ExecuteReader()
-
-					If reader.HasRows = True Then
-						invoiceDetails.Clear()
-						While reader.Read()
-							invoiceDetails.Add(New InvoiceDetailDTO(reader("ID"), reader("InvoiceID"), reader("BookID"), reader("Amount"), reader("SalesPrice")))
-						End While
-					End If
-
-				Catch ex As Exception
-
-					Debug.WriteLine("Get invoice details failed")
-					Return New Result(False, "Get invoice details failed", ex.StackTrace)
-
-				Finally
-					conn.Close()
-				End Try
-
-			End Using
-
-		End Using
-
-		Debug.WriteLine("Get invoice details succeed")
+		'Debug.WriteLine("Insert invoice details succeed")
 		Return New Result(True)
 	End Function
 
@@ -252,7 +205,7 @@ Public Class InvoiceDetailDAL
 
 				Catch ex As Exception
 
-					Debug.WriteLine("Get invoice detail failed")
+					'Debug.WriteLine("Get invoice detail failed")
 					Return New Result(False, "Get invoice detail failed", ex.StackTrace)
 
 				Finally
@@ -263,7 +216,55 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Get invoice detail succeed")
+		'Debug.WriteLine("Get invoice detail succeed")
+		Return New Result(True)
+	End Function
+
+
+	Public Function selectAll(ByRef invoiceDetails As List(Of InvoiceDetailDTO)) As Result
+
+		Dim query As String = String.Empty
+		query &= "SELECT [ID], [InvoiceID], [BookID], [Amount], [SalesPrice] "
+		query &= "FROM [InvoiceDetail] "
+		query &= "ORDER BY [ID] DESC"
+
+		Using conn As New SqlConnection(connectionStr)
+
+			Using comm As New SqlCommand()
+
+				With comm
+					.Connection = conn
+					.CommandType = CommandType.Text
+					.CommandText = query
+				End With
+
+				Try
+					conn.Open()
+
+					Dim reader As SqlDataReader
+					reader = comm.ExecuteReader()
+
+					If reader.HasRows = True Then
+						invoiceDetails.Clear()
+						While reader.Read()
+							invoiceDetails.Add(New InvoiceDetailDTO(reader("ID"), reader("InvoiceID"), reader("BookID"), reader("Amount"), reader("SalesPrice")))
+						End While
+					End If
+
+				Catch ex As Exception
+
+					'Debug.WriteLine("Get invoice details failed")
+					Return New Result(False, "Get invoice details failed", ex.StackTrace)
+
+				Finally
+					conn.Close()
+				End Try
+
+			End Using
+
+		End Using
+
+		'Debug.WriteLine("Get invoice details succeed")
 		Return New Result(True)
 	End Function
 
@@ -301,7 +302,7 @@ Public Class InvoiceDetailDAL
 
 				Catch ex As Exception
 
-					Debug.WriteLine("Get invoice details failed")
+					'Debug.WriteLine("Get invoice details failed")
 					Return New Result(False, "Get invoice details failed", ex.StackTrace)
 
 				Finally
@@ -312,7 +313,7 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Get invoice details succeed")
+		'Debug.WriteLine("Get invoice details succeed")
 		Return New Result(True)
 	End Function
 
@@ -350,7 +351,7 @@ Public Class InvoiceDetailDAL
 
 				Catch ex As Exception
 
-					Debug.WriteLine("Get invoice details failed")
+					'Debug.WriteLine("Get invoice details failed")
 					Return New Result(False, "Get invoice details failed", ex.StackTrace)
 
 				Finally
@@ -361,7 +362,7 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Get invoice details succeed")
+		'Debug.WriteLine("Get invoice details succeed")
 		Return New Result(True)
 	End Function
 
@@ -396,7 +397,7 @@ Public Class InvoiceDetailDAL
 
 				Catch ex As Exception
 
-					Debug.WriteLine("Update invoice detail failed")
+					'Debug.WriteLine("Update invoice detail failed")
 					Return New Result(False, "Update invoice detail failed", ex.StackTrace)
 
 				Finally
@@ -407,7 +408,7 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Update invoice detail succeed")
+		'Debug.WriteLine("Update invoice detail succeed")
 		Return New Result(True)
 	End Function
 
@@ -434,7 +435,7 @@ Public Class InvoiceDetailDAL
 
 				Catch ex As Exception
 
-					Debug.WriteLine("Delete invoice detail failed")
+					'Debug.WriteLine("Delete invoice detail failed")
 					Return New Result(False, "Delete invoice detail failed", ex.StackTrace)
 
 				Finally
@@ -445,7 +446,7 @@ Public Class InvoiceDetailDAL
 
 		End Using
 
-		Debug.WriteLine("Delete invoice detail succeed")
+		'Debug.WriteLine("Delete invoice detail succeed")
 		Return New Result(True)
 	End Function
 End Class
