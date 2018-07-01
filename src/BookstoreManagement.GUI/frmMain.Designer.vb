@@ -23,6 +23,7 @@ Partial Class frmMain
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
 		Me.pnlMainMenu = New MetroFramework.Controls.MetroPanel()
+		Me.lkAbout = New MetroFramework.Controls.MetroLink()
 		Me.tlRegulation = New MetroFramework.Controls.MetroTile()
 		Me.tlReceipt = New MetroFramework.Controls.MetroTile()
 		Me.tlDebtReport = New MetroFramework.Controls.MetroTile()
@@ -55,6 +56,16 @@ Partial Class frmMain
 		Me.pnlMainMenu.VerticalScrollbarBarColor = True
 		Me.pnlMainMenu.VerticalScrollbarHighlightOnWheel = False
 		Me.pnlMainMenu.VerticalScrollbarSize = 10
+		'
+		'lkAbout
+		'
+		Me.lkAbout.Image = Global.BookstoreManagement.GUI.My.Resources.Resources.AboutIcon
+		Me.lkAbout.ImageSize = 25
+		Me.lkAbout.Location = New System.Drawing.Point(687, 33)
+		Me.lkAbout.Name = "lkAbout"
+		Me.lkAbout.Size = New System.Drawing.Size(30, 27)
+		Me.lkAbout.TabIndex = 1
+		Me.lkAbout.UseSelectable = True
 		'
 		'tlRegulation
 		'
@@ -173,6 +184,7 @@ Partial Class frmMain
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(750, 400)
+		Me.Controls.Add(Me.lkAbout)
 		Me.Controls.Add(Me.pnlMainMenu)
 		Me.Name = "frmMain"
 		Me.Text = "Main Menu"
@@ -190,4 +202,5 @@ Partial Class frmMain
 	Friend WithEvents tlInvoice As MetroFramework.Controls.MetroTile
 	Friend WithEvents tlImport As MetroFramework.Controls.MetroTile
 	Friend WithEvents tlRegulation As MetroFramework.Controls.MetroTile
+	Friend WithEvents lkAbout As MetroFramework.Controls.MetroLink
 End Class
