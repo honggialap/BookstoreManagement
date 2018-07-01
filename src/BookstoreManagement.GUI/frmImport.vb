@@ -108,10 +108,7 @@ Public Class frmImport
 
 	Private Sub LoadBooks()
 		Dim books As List(Of BookDTO) = New List(Of BookDTO)
-		Dim result As Result
-
-		result = bookBUS.selectAll(books)
-
+		Dim result = bookBUS.selectAll(books)
 		books = books.OrderBy(Function(import) import.ID).ToList() 'Sort alphabetically
 
 		If (result.FlagResult = True) Then
@@ -161,6 +158,11 @@ Public Class frmImport
 
 		Try
 			Dim importAmount = Convert.ToInt32(selectedCells("colImportAmount").Value)
+
+			If (importAmount < 0) Then
+				Throw New ArgumentException
+			End If
+
 			importDetail.ImportAmount = importAmount
 		Catch ex As FormatException
 			importDetail.ImportAmount = 0
@@ -168,10 +170,23 @@ Public Class frmImport
 
 			MetroMessageBox.Show(Me, "Import amount field must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Console.WriteLine(ex.StackTrace)
+			Return Nothing
+		Catch ex As ArgumentException
+			importDetail.ImportAmount = 0
+			selectedCells("colImportAmount").Value = importDetail.ImportAmount
+
+			MetroMessageBox.Show(Me, "Import amount out of range", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Console.WriteLine(ex.StackTrace)
+			Return Nothing
 		End Try
 
 		Try
 			Dim importPrice = Convert.ToInt32(selectedCells("colImportPrice").Value)
+
+			If (importPrice < 0) Then
+				Throw New ArgumentException
+			End If
+
 			importDetail.ImportPrice = importPrice
 		Catch ex As FormatException
 			importDetail.ImportPrice = 0
@@ -179,6 +194,14 @@ Public Class frmImport
 
 			MetroMessageBox.Show(Me, "Import price field must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Console.WriteLine(ex.StackTrace)
+			Return Nothing
+		Catch ex As ArgumentException
+			importDetail.ImportPrice = 0
+			selectedCells("colImportPrice").Value = importDetail.ImportPrice
+
+			MetroMessageBox.Show(Me, "Import price out of range", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Console.WriteLine(ex.StackTrace)
+			Return Nothing
 		End Try
 
 		Return importDetail
@@ -214,6 +237,17 @@ Public Class frmImport
 		dgvImport.Rows(index).Cells("colImportDate").Value = value.ImportDate
 	End Sub
 
+	Public Function GetErrorMessage(title As String, result As Result) As String
+		Dim errorMessage As String = ""
+
+		errorMessage &= title
+		errorMessage &= Environment.NewLine
+		errorMessage &= Environment.NewLine
+		errorMessage &= result.ApplicationMessage
+
+		Return errorMessage
+	End Function
+
 	Private Sub LoadImportDetailsFromSelectedImport()
 		If (SelectedImport Is Nothing) Then
 			Return
@@ -240,8 +274,9 @@ Public Class frmImport
 		If (result.FlagResult = True) Then
 			MetroMessageBox.Show(Me, "Import is added", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information)
 		Else
-			MetroMessageBox.Show(Me, "Failed to add import", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			MetroMessageBox.Show(Me, GetErrorMessage("Failed to add import", result), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Console.WriteLine(result.SystemMessage)
+			Return
 		End If
 
 		Dim importDetails = New List(Of ImportDetailDTO)
@@ -252,6 +287,9 @@ Public Class frmImport
 			End If
 
 			Dim importDetail = GetImportDetailFromCellsIndex(row.Index)
+			If (importDetail Is Nothing) Then
+				Return
+			End If
 			importDetails.Add(importDetail)
 		Next
 
@@ -259,51 +297,26 @@ Public Class frmImport
 
 		If (result.FlagResult = True) Then
 			MetroMessageBox.Show(Me, "Import detail is added", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			btnAdd.Enabled = False 'Make sure to disable before loading
 			LoadImport() ' Reload import to reflect new changes and add nextId
-			btnAdd.Enabled = False
 		Else
 			If (import.ID = nextImportID) Then
 				importBUS.delete(import.ID)
 			End If
 
-			Dim errorMessage As String = ""
-
-			errorMessage &= "Failed to add import detail"
-			errorMessage &= Environment.NewLine
-			errorMessage &= Environment.NewLine
-			errorMessage &= result.ApplicationMessage
-
-			MetroMessageBox.Show(Me, errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			MetroMessageBox.Show(Me, GetErrorMessage("Failed to add import detail", result), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Console.WriteLine(result.SystemMessage)
 		End If
 	End Sub
 
 	Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
-		Dim importDetails = New List(Of ImportDetailDTO)
-
-		For Each row As DataGridViewRow In dgvImportDetail.Rows
-			If (row.IsNewRow) Then
-				Exit For
-			End If
-
-			Dim importDetail As ImportDetailDTO = GetImportDetailFromCellsIndex(row.Index)
-			importDetails.Add(importDetail)
-		Next
-
 		Dim result As Result
 
 		For Each importDetail As ImportDetailDTO In importDetailsToUpdate
 			result = importDetailBUS.update(importDetail)
 
 			If (result.FlagResult = False) Then
-				Dim errorMessage As String = ""
-
-				errorMessage &= "Failed to update import detail"
-				errorMessage &= Environment.NewLine
-				errorMessage &= Environment.NewLine
-				errorMessage &= result.ApplicationMessage
-
-				MetroMessageBox.Show(Me, errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+				MetroMessageBox.Show(Me, GetErrorMessage("Failed to update import detail", result), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 				Console.WriteLine(result.SystemMessage)
 				Return
 			End If
@@ -328,6 +341,7 @@ Public Class frmImport
 			MetroMessageBox.Show(Me, String.Format("Failed to delete import detail {0}", selectedImportDetailID),
 										"Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Console.WriteLine(result.SystemMessage)
+			Return
 		End If
 
 		LoadImportDetailsFromSelectedImport()
@@ -344,15 +358,26 @@ Public Class frmImport
 			isChangingImportSelection = True
 
 			Dim dialogResult = MetroMessageBox.Show(Me, "All changed in Import Detail will be overwrite. Do you want to switch?",
-										"MetroMessagebox", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+										"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
 
 			If (dialogResult = DialogResult.Yes) Then
+				If (btnUpdate.Enabled) Then
+					importDetailsToUpdate.Clear()
+				End If
 				LoadImportDetailsFromSelectedImport()
 			Else
 				dgvImport.Rows(lastImportSelectionIndex).Selected = True 'Trigger recursion
 			End If
 		Else
 			LoadImportDetailsFromSelectedImport()
+		End If
+
+		If (SelectedImportDetail IsNot Nothing) Then
+			If (SelectedImportDetail.ID = nextImportDetailID) Then
+				dgvImportDetail.AllowUserToAddRows = True
+			Else
+				dgvImportDetail.AllowUserToAddRows = False
+			End If
 		End If
 
 		lastImportSelectionIndex = dgvImport.CurrentCell.RowIndex
@@ -365,6 +390,9 @@ Public Class frmImport
 		End If
 
 		Dim changedImportDetail = GetImportDetailFromCellsIndex(e.RowIndex)
+		If (changedImportDetail Is Nothing) Then
+			Return
+		End If
 
 		If (changedImportDetail.ID = Nothing) Then
 			nextImportDetailID.IncrementID("IMPORTDETAIL", "D4")
@@ -373,21 +401,26 @@ Public Class frmImport
 			Return
 		End If
 
-		Dim duplicatedItems = importDetailsToUpdate.
-			Where(Function(detail) detail.ID = changedImportDetail.ID)
-
-		If (duplicatedItems.Count = 0) Then
-			importDetailsToUpdate.Add(changedImportDetail)
-		Else
-			Dim oldIndex = importDetailsToUpdate.IndexOf(duplicatedItems.First())
-			importDetailsToUpdate(oldIndex) = changedImportDetail
-		End If
+		importDetailsToUpdate.AddOrReplace(changedImportDetail, ImportDetailComparer.Instance)
 
 		If (SelectedImport IsNot Nothing) Then
 			If (SelectedImport.ID Is nextImportID) Then
 				btnAdd.Enabled = True
 			Else
 				btnUpdate.Enabled = True
+			End If
+		End If
+	End Sub
+
+	Protected Overrides Sub OnFormClosing(e As FormClosingEventArgs)
+		If (btnAdd.Enabled Or btnUpdate.Enabled) Then
+			Dim dialogResult = MetroMessageBox.Show(Me, "All changed in Import Detail will be overwrite. Do you want to exit?",
+							"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+			If (dialogResult = DialogResult.Yes) Then
+				MyBase.OnFormClosing(e)
+			Else
+				e.Cancel = True
 			End If
 		End If
 	End Sub

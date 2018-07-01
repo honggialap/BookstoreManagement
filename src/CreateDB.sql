@@ -565,7 +565,7 @@ INSERT INTO [dbo].[Customer]
            ,CONVERT(NVARCHAR,'Home number ') + CONVERT(NVARCHAR,FORMAT(@i,'d4'))
            ,CONVERT(NVARCHAR,'Customer') + CONVERT(NVARCHAR,FORMAT(@i,'d4')) + CONVERT(NVARCHAR,'@email.com')
            ,CONVERT(NVARCHAR,FORMAT(@i * 120 - 4,'d10'))
-           ,1250 * @i
+           ,3500 * @i
            )
   SET @i = @i + 1;
 END
