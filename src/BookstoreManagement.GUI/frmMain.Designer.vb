@@ -24,9 +24,9 @@ Partial Class frmMain
 	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
 		Me.pnlMainMenu = New MetroFramework.Controls.MetroPanel()
-		Me.tlAuthor = New MetroFramework.Controls.MetroTile()
 		Me.tlAbout = New MetroFramework.Controls.MetroTile()
 		Me.tlExit = New MetroFramework.Controls.MetroTile()
+		Me.tlAuthor = New MetroFramework.Controls.MetroTile()
 		Me.tlRegulation = New MetroFramework.Controls.MetroTile()
 		Me.tlReceipt = New MetroFramework.Controls.MetroTile()
 		Me.tlDebtReport = New MetroFramework.Controls.MetroTile()
@@ -69,22 +69,6 @@ Partial Class frmMain
 		Me.pnlMainMenu.VerticalScrollbarHighlightOnWheel = False
 		Me.pnlMainMenu.VerticalScrollbarSize = 10
 		'
-		'tlAuthor
-		'
-		Me.tlAuthor.ActiveControl = Nothing
-		Me.tlAuthor.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlAuthor.Location = New System.Drawing.Point(488, 10)
-		Me.tlAuthor.Margin = New System.Windows.Forms.Padding(10)
-		Me.tlAuthor.Name = "tlAuthor"
-		Me.tlAuthor.Size = New System.Drawing.Size(107, 130)
-		Me.tlAuthor.TabIndex = 6
-		Me.tlAuthor.Text = "Author"
-		Me.tlAuthor.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Author
-		Me.tlAuthor.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
-		Me.tlAuthor.UseCustomBackColor = True
-		Me.tlAuthor.UseSelectable = True
-		Me.tlAuthor.UseTileImage = True
-		'
 		'tlAbout
 		'
 		Me.tlAbout.ActiveControl = Nothing
@@ -114,6 +98,22 @@ Partial Class frmMain
 		Me.tlExit.UseCustomBackColor = True
 		Me.tlExit.UseSelectable = True
 		Me.tlExit.UseTileImage = True
+		'
+		'tlAuthor
+		'
+		Me.tlAuthor.ActiveControl = Nothing
+		Me.tlAuthor.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
+		Me.tlAuthor.Location = New System.Drawing.Point(488, 10)
+		Me.tlAuthor.Margin = New System.Windows.Forms.Padding(10)
+		Me.tlAuthor.Name = "tlAuthor"
+		Me.tlAuthor.Size = New System.Drawing.Size(107, 130)
+		Me.tlAuthor.TabIndex = 6
+		Me.tlAuthor.Text = "Author"
+		Me.tlAuthor.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Author
+		Me.tlAuthor.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.tlAuthor.UseCustomBackColor = True
+		Me.tlAuthor.UseSelectable = True
+		Me.tlAuthor.UseTileImage = True
 		'
 		'tlRegulation
 		'
