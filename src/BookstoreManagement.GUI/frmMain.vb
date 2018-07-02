@@ -70,4 +70,9 @@ Public Class frmMain
 		Dim frm As frmRegulation = New frmRegulation()
 		frm.ShowDialog()
 	End Sub
+
+	Private Sub tlStockReport_Click(sender As Object, e As EventArgs) Handles tlStockReport.Click
+		Dim frm As frmStockReport = New frmStockReport
+		frm.ShowDialog()
+	End Sub
 End Class

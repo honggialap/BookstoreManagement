@@ -23,7 +23,6 @@ Partial Class frmMain
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
 		Me.pnlMainMenu = New MetroFramework.Controls.MetroPanel()
-		Me.lkAbout = New MetroFramework.Controls.MetroLink()
 		Me.tlAuthor = New MetroFramework.Controls.MetroTile()
 		Me.tlRegulation = New MetroFramework.Controls.MetroTile()
 		Me.tlReceipt = New MetroFramework.Controls.MetroTile()
@@ -35,6 +34,7 @@ Partial Class frmMain
 		Me.tlCustomer = New MetroFramework.Controls.MetroTile()
 		Me.tlBook = New MetroFramework.Controls.MetroTile()
 		Me.tlImport = New MetroFramework.Controls.MetroTile()
+		Me.lkAbout = New MetroFramework.Controls.MetroLink()
 		Me.pnlMainMenu.SuspendLayout()
 		Me.SuspendLayout()
 		'
@@ -79,16 +79,6 @@ Partial Class frmMain
 		Me.tlAuthor.UseCustomBackColor = True
 		Me.tlAuthor.UseSelectable = True
 		Me.tlAuthor.UseTileImage = True
-		'
-		'lkAbout
-		'
-		Me.lkAbout.Image = Global.BookstoreManagement.GUI.My.Resources.Resources.AboutIcon
-		Me.lkAbout.ImageSize = 25
-		Me.lkAbout.Location = New System.Drawing.Point(687, 33)
-		Me.lkAbout.Name = "lkAbout"
-		Me.lkAbout.Size = New System.Drawing.Size(30, 27)
-		Me.lkAbout.TabIndex = 1
-		Me.lkAbout.UseSelectable = True
 		'
 		'tlRegulation
 		'
@@ -246,6 +236,16 @@ Partial Class frmMain
 		Me.tlImport.UseCustomBackColor = True
 		Me.tlImport.UseSelectable = True
 		Me.tlImport.UseTileImage = True
+		'
+		'lkAbout
+		'
+		Me.lkAbout.Image = Global.BookstoreManagement.GUI.My.Resources.Resources.AboutIcon
+		Me.lkAbout.ImageSize = 25
+		Me.lkAbout.Location = New System.Drawing.Point(687, 33)
+		Me.lkAbout.Name = "lkAbout"
+		Me.lkAbout.Size = New System.Drawing.Size(30, 27)
+		Me.lkAbout.TabIndex = 1
+		Me.lkAbout.UseSelectable = True
 		'
 		'frmMain
 		'
