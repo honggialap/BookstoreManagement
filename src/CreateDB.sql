@@ -385,6 +385,54 @@ GO
 ALTER TABLE [dbo].[InvoiceDetail] CHECK CONSTRAINT [FK_InvoiceDetail_Invoice]
 GO
 
+/****** Object:  Table [dbo].[Account]    Script Date: 6/3/2018 11:36:26 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Account](
+	[ID] [nvarchar](20) NOT NULL,
+	[Name] [nvarchar](30) NULL,
+	[Password] [nvarchar](30) NULL,
+	[Privilege] [int] NULL,
+ CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[Option]    Script Date: 6/3/2018 11:39:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Option](
+	[RememberMe] [bit] NULL,
+	[RememberedAccount] [nvarchar](20) NULL,
+) ON [PRIMARY]
+GO
+
+
+/****** Default Option ******/
+USE [BookstoreManagement]
+GO
+INSERT INTO [dbo].[Option] ([RememberMe], [RememberedAccount])
+VALUES (1, NULL)
+
+
+/****** Accounts ******/
+USE [BookstoreManagement]
+GO
+INSERT INTO [dbo].[Account] ([ID], [Name], [Password], [Privilege])
+VALUES (CONVERT(NVARCHAR,'ACC001'), CONVERT(NVARCHAR,'ceo'), CONVERT(NVARCHAR,'ceopass'), 1)
+
+INSERT INTO [dbo].[Account] ([ID], [Name], [Password], [Privilege])
+VALUES (CONVERT(NVARCHAR,'ACC002'), CONVERT(NVARCHAR,'employee'), CONVERT(NVARCHAR,'employeepass'), 2)
+
+INSERT INTO [dbo].[Account] ([ID], [Name], [Password], [Privilege])
+VALUES (CONVERT(NVARCHAR,'ACC003'), CONVERT(NVARCHAR,'customer'), CONVERT(NVARCHAR,'customerpass'), 3)
+
 
 
 /****** Default Parameter ******/

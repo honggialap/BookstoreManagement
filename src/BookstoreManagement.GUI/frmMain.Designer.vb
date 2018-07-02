@@ -22,8 +22,11 @@ Partial Class frmMain
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
 		Me.pnlMainMenu = New MetroFramework.Controls.MetroPanel()
 		Me.tlAuthor = New MetroFramework.Controls.MetroTile()
+		Me.tlAbout = New MetroFramework.Controls.MetroTile()
+		Me.tlExit = New MetroFramework.Controls.MetroTile()
 		Me.tlRegulation = New MetroFramework.Controls.MetroTile()
 		Me.tlReceipt = New MetroFramework.Controls.MetroTile()
 		Me.tlDebtReport = New MetroFramework.Controls.MetroTile()
@@ -34,7 +37,6 @@ Partial Class frmMain
 		Me.tlCustomer = New MetroFramework.Controls.MetroTile()
 		Me.tlBook = New MetroFramework.Controls.MetroTile()
 		Me.tlImport = New MetroFramework.Controls.MetroTile()
-		Me.lkAbout = New MetroFramework.Controls.MetroLink()
 		Me.pnlMainMenu.SuspendLayout()
 		Me.SuspendLayout()
 		'
@@ -43,6 +45,8 @@ Partial Class frmMain
 		Me.pnlMainMenu.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
 				Or System.Windows.Forms.AnchorStyles.Left) _
 				Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.pnlMainMenu.Controls.Add(Me.tlAbout)
+		Me.pnlMainMenu.Controls.Add(Me.tlExit)
 		Me.pnlMainMenu.Controls.Add(Me.tlAuthor)
 		Me.pnlMainMenu.Controls.Add(Me.tlRegulation)
 		Me.pnlMainMenu.Controls.Add(Me.tlReceipt)
@@ -59,7 +63,7 @@ Partial Class frmMain
 		Me.pnlMainMenu.HorizontalScrollbarSize = 10
 		Me.pnlMainMenu.Location = New System.Drawing.Point(23, 63)
 		Me.pnlMainMenu.Name = "pnlMainMenu"
-		Me.pnlMainMenu.Size = New System.Drawing.Size(704, 314)
+		Me.pnlMainMenu.Size = New System.Drawing.Size(787, 390)
 		Me.pnlMainMenu.TabIndex = 0
 		Me.pnlMainMenu.VerticalScrollbarBarColor = True
 		Me.pnlMainMenu.VerticalScrollbarHighlightOnWheel = False
@@ -69,25 +73,56 @@ Partial Class frmMain
 		'
 		Me.tlAuthor.ActiveControl = Nothing
 		Me.tlAuthor.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlAuthor.Location = New System.Drawing.Point(10, 10)
+		Me.tlAuthor.Location = New System.Drawing.Point(488, 10)
 		Me.tlAuthor.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlAuthor.Name = "tlAuthor"
-		Me.tlAuthor.Size = New System.Drawing.Size(70, 50)
+		Me.tlAuthor.Size = New System.Drawing.Size(107, 130)
 		Me.tlAuthor.TabIndex = 6
 		Me.tlAuthor.Text = "Author"
+		Me.tlAuthor.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Author
 		Me.tlAuthor.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
 		Me.tlAuthor.UseCustomBackColor = True
 		Me.tlAuthor.UseSelectable = True
 		Me.tlAuthor.UseTileImage = True
 		'
+		'tlAbout
+		'
+		Me.tlAbout.ActiveControl = Nothing
+		Me.tlAbout.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
+		Me.tlAbout.Location = New System.Drawing.Point(605, 293)
+		Me.tlAbout.Name = "tlAbout"
+		Me.tlAbout.Size = New System.Drawing.Size(168, 83)
+		Me.tlAbout.TabIndex = 14
+		Me.tlAbout.Text = "About"
+		Me.tlAbout.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.AboutIcon
+		Me.tlAbout.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.tlAbout.UseCustomBackColor = True
+		Me.tlAbout.UseSelectable = True
+		Me.tlAbout.UseTileImage = True
+		'
+		'tlExit
+		'
+		Me.tlExit.ActiveControl = Nothing
+		Me.tlExit.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
+		Me.tlExit.Location = New System.Drawing.Point(417, 291)
+		Me.tlExit.Name = "tlExit"
+		Me.tlExit.Size = New System.Drawing.Size(178, 85)
+		Me.tlExit.TabIndex = 13
+		Me.tlExit.Text = "Exit"
+		Me.tlExit.TileImage = CType(resources.GetObject("tlExit.TileImage"), System.Drawing.Image)
+		Me.tlExit.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
+		Me.tlExit.UseCustomBackColor = True
+		Me.tlExit.UseSelectable = True
+		Me.tlExit.UseTileImage = True
+		'
 		'tlRegulation
 		'
 		Me.tlRegulation.ActiveControl = Nothing
 		Me.tlRegulation.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlRegulation.Location = New System.Drawing.Point(535, 174)
+		Me.tlRegulation.Location = New System.Drawing.Point(605, 150)
 		Me.tlRegulation.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlRegulation.Name = "tlRegulation"
-		Me.tlRegulation.Size = New System.Drawing.Size(125, 130)
+		Me.tlRegulation.Size = New System.Drawing.Size(168, 130)
 		Me.tlRegulation.TabIndex = 12
 		Me.tlRegulation.Text = "Regulation"
 		Me.tlRegulation.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Regulation
@@ -100,10 +135,10 @@ Partial Class frmMain
 		'
 		Me.tlReceipt.ActiveControl = Nothing
 		Me.tlReceipt.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlReceipt.Location = New System.Drawing.Point(100, 174)
+		Me.tlReceipt.Location = New System.Drawing.Point(10, 150)
 		Me.tlReceipt.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlReceipt.Name = "tlReceipt"
-		Me.tlReceipt.Size = New System.Drawing.Size(125, 130)
+		Me.tlReceipt.Size = New System.Drawing.Size(125, 226)
 		Me.tlReceipt.TabIndex = 11
 		Me.tlReceipt.Text = "Receipt"
 		Me.tlReceipt.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Receipt
@@ -116,7 +151,7 @@ Partial Class frmMain
 		'
 		Me.tlDebtReport.ActiveControl = Nothing
 		Me.tlDebtReport.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlDebtReport.Location = New System.Drawing.Point(535, 10)
+		Me.tlDebtReport.Location = New System.Drawing.Point(282, 150)
 		Me.tlDebtReport.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlDebtReport.Name = "tlDebtReport"
 		Me.tlDebtReport.Size = New System.Drawing.Size(125, 130)
@@ -132,7 +167,7 @@ Partial Class frmMain
 		'
 		Me.tlStockReport.ActiveControl = Nothing
 		Me.tlStockReport.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlStockReport.Location = New System.Drawing.Point(390, 10)
+		Me.tlStockReport.Location = New System.Drawing.Point(147, 150)
 		Me.tlStockReport.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlStockReport.Name = "tlStockReport"
 		Me.tlStockReport.Size = New System.Drawing.Size(125, 130)
@@ -148,10 +183,10 @@ Partial Class frmMain
 		'
 		Me.tlSearch.ActiveControl = Nothing
 		Me.tlSearch.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlSearch.Location = New System.Drawing.Point(245, 174)
+		Me.tlSearch.Location = New System.Drawing.Point(605, 7)
 		Me.tlSearch.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlSearch.Name = "tlSearch"
-		Me.tlSearch.Size = New System.Drawing.Size(270, 130)
+		Me.tlSearch.Size = New System.Drawing.Size(168, 133)
 		Me.tlSearch.TabIndex = 8
 		Me.tlSearch.Text = "Search"
 		Me.tlSearch.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Search
@@ -164,10 +199,10 @@ Partial Class frmMain
 		'
 		Me.tlInvoice.ActiveControl = Nothing
 		Me.tlInvoice.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlInvoice.Location = New System.Drawing.Point(245, 10)
+		Me.tlInvoice.Location = New System.Drawing.Point(147, 10)
 		Me.tlInvoice.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlInvoice.Name = "tlInvoice"
-		Me.tlInvoice.Size = New System.Drawing.Size(125, 130)
+		Me.tlInvoice.Size = New System.Drawing.Size(212, 130)
 		Me.tlInvoice.TabIndex = 7
 		Me.tlInvoice.Text = "Invoice"
 		Me.tlInvoice.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.InvoiceIcon
@@ -180,12 +215,13 @@ Partial Class frmMain
 		'
 		Me.tlBookCategory.ActiveControl = Nothing
 		Me.tlBookCategory.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlBookCategory.Location = New System.Drawing.Point(10, 174)
+		Me.tlBookCategory.Location = New System.Drawing.Point(147, 291)
 		Me.tlBookCategory.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlBookCategory.Name = "tlBookCategory"
-		Me.tlBookCategory.Size = New System.Drawing.Size(70, 50)
+		Me.tlBookCategory.Size = New System.Drawing.Size(260, 85)
 		Me.tlBookCategory.TabIndex = 6
 		Me.tlBookCategory.Text = "Category"
+		Me.tlBookCategory.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Cateogry
 		Me.tlBookCategory.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
 		Me.tlBookCategory.UseCustomBackColor = True
 		Me.tlBookCategory.UseSelectable = True
@@ -195,12 +231,13 @@ Partial Class frmMain
 		'
 		Me.tlCustomer.ActiveControl = Nothing
 		Me.tlCustomer.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlCustomer.Location = New System.Drawing.Point(10, 254)
+		Me.tlCustomer.Location = New System.Drawing.Point(417, 150)
 		Me.tlCustomer.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlCustomer.Name = "tlCustomer"
-		Me.tlCustomer.Size = New System.Drawing.Size(70, 50)
+		Me.tlCustomer.Size = New System.Drawing.Size(178, 130)
 		Me.tlCustomer.TabIndex = 6
 		Me.tlCustomer.Text = "Customer"
+		Me.tlCustomer.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Customer
 		Me.tlCustomer.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
 		Me.tlCustomer.UseCustomBackColor = True
 		Me.tlCustomer.UseSelectable = True
@@ -210,12 +247,13 @@ Partial Class frmMain
 		'
 		Me.tlBook.ActiveControl = Nothing
 		Me.tlBook.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlBook.Location = New System.Drawing.Point(10, 90)
+		Me.tlBook.Location = New System.Drawing.Point(369, 10)
 		Me.tlBook.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlBook.Name = "tlBook"
-		Me.tlBook.Size = New System.Drawing.Size(70, 50)
+		Me.tlBook.Size = New System.Drawing.Size(109, 130)
 		Me.tlBook.TabIndex = 6
 		Me.tlBook.Text = "Book"
+		Me.tlBook.TileImage = Global.BookstoreManagement.GUI.My.Resources.Resources.Book
 		Me.tlBook.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter
 		Me.tlBook.UseCustomBackColor = True
 		Me.tlBook.UseSelectable = True
@@ -225,7 +263,7 @@ Partial Class frmMain
 		'
 		Me.tlImport.ActiveControl = Nothing
 		Me.tlImport.BackColor = System.Drawing.Color.FromArgb(CType(CType(57, Byte), Integer), CType(CType(179, Byte), Integer), CType(CType(215, Byte), Integer))
-		Me.tlImport.Location = New System.Drawing.Point(100, 10)
+		Me.tlImport.Location = New System.Drawing.Point(10, 10)
 		Me.tlImport.Margin = New System.Windows.Forms.Padding(10)
 		Me.tlImport.Name = "tlImport"
 		Me.tlImport.Size = New System.Drawing.Size(125, 130)
@@ -237,24 +275,16 @@ Partial Class frmMain
 		Me.tlImport.UseSelectable = True
 		Me.tlImport.UseTileImage = True
 		'
-		'lkAbout
-		'
-		Me.lkAbout.Image = Global.BookstoreManagement.GUI.My.Resources.Resources.AboutIcon
-		Me.lkAbout.ImageSize = 25
-		Me.lkAbout.Location = New System.Drawing.Point(687, 33)
-		Me.lkAbout.Name = "lkAbout"
-		Me.lkAbout.Size = New System.Drawing.Size(30, 27)
-		Me.lkAbout.TabIndex = 1
-		Me.lkAbout.UseSelectable = True
-		'
 		'frmMain
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(750, 400)
-		Me.Controls.Add(Me.lkAbout)
+		Me.ClientSize = New System.Drawing.Size(833, 476)
 		Me.Controls.Add(Me.pnlMainMenu)
+		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+		Me.MaximizeBox = False
 		Me.Name = "frmMain"
+		Me.Resizable = False
 		Me.Text = "Main Menu"
 		Me.TransparencyKey = System.Drawing.Color.Empty
 		Me.pnlMainMenu.ResumeLayout(False)
@@ -274,5 +304,6 @@ Partial Class frmMain
 	Friend WithEvents tlBookCategory As MetroFramework.Controls.MetroTile
 	Friend WithEvents tlCustomer As MetroFramework.Controls.MetroTile
 	Friend WithEvents tlBook As MetroFramework.Controls.MetroTile
-	Friend WithEvents lkAbout As MetroFramework.Controls.MetroLink
+	Friend WithEvents tlExit As MetroFramework.Controls.MetroTile
+	Friend WithEvents tlAbout As MetroFramework.Controls.MetroTile
 End Class
